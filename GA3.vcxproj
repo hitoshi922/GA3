@@ -19,7 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="algorithms.cpp" />
+    <ClCompile Include="crossover.cpp" />
+    <ClCompile Include="DECLEAR.cpp" />
+    <ClCompile Include="evaluation.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mutation.cpp" />
+    <ClCompile Include="process.cpp" />
+    <ClCompile Include="setting.cpp" />
+    <ClCompile Include="simulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
