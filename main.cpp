@@ -272,7 +272,7 @@ void output_result(double ex_time) {
 		sprintf_s(filename, "result.txt");
 	}
 	else {
-		sprintf_s(filename, "C:/Users/kuboh/source/repos/SOGA/result/result%2d%2d%d%d.txt", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min);
+		sprintf_s(filename, "C:/ex_result/result%2d%2d%d%d.txt", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min);
 	}
 
 	error = fopen_s(&fp, filename, "w");
@@ -328,7 +328,7 @@ void output_result(double ex_time) {
 	fclose(fp);
 
 	//ここからcsvファイル出力
-	sprintf_s(filename2, "C:/Users/kuboh/source/repos/SOGA/result/final%2d%2d%d%d.csv", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min);
+	sprintf_s(filename2, "C:/ex_result/final%2d%2d%d%d.csv", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min);
 	error2 = fopen_s(&fp2, filename2, "w");
 	if (error2 != 0) {
 		printf("結果ファイル.csvを開けませんでした。");
