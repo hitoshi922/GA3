@@ -31,7 +31,7 @@ void experiment_setting() {
 	CHROM = 2;
 	for (i = 0; i < DIM[0]; i++) {
 		upper_bound[i][0] = 120;
-		lower_bound[i][0] = 30;
+		lower_bound[i][0] = 80;
 	}
 	for (i = 0; i < DIM[1]; i++) {
 		upper_bound[i][1] = 100;

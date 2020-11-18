@@ -10,21 +10,21 @@
 #define ALGO 10 //0:simple  10:NSGA2
 
 #define TYPE 0 //0:contenious  1:discrete
-#define MODE 0//0:benchmark  1:experiment
+#define MODE 1//0:benchmark  1:experiment
 
 constexpr int TRIAL = 1;
 
 #define DIM_SEC 15
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 50;
-constexpr int GEN = 500;
+constexpr int POP = 10;
+constexpr int GEN = 5;
 constexpr double CROSSOVER_RATE = 1; // *100[%];
 constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
 
 constexpr int discrete[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
-#define EVALUATION 24
+#define EVALUATION 1
 /* EVALUATION FUNCTION
 0:equation_base
 1:simulation_base
@@ -47,7 +47,7 @@ UNIFORM:0  TORNAMENT:1  ROULETTE:2
 crowding:10
 */
 
-constexpr int CROSSOVER[CHROM_SEC] = { 11,102 };
+constexpr int CROSSOVER[CHROM_SEC] = { 10,102 };
 /* CROSSOVER METHOD
 OnePX:0  TwoPX:1  UniX:2
 BLX_a:10  SBX:11
@@ -142,6 +142,7 @@ void benchmark_setting();
 //simulation
 void make_netlist(individual* A, int arr);
 void make_netlist2(individual* A, int arr);
+void make_netlist3(individual* A, int arr);
 void sim_STL(individual* A, int arr);
 double get_result(int i);
 double getwidth(double X[][CHROM_SEC]);

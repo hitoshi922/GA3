@@ -38,7 +38,7 @@ void evaluation(individual* A, int arr) {
 
 	//é¿å±ÉÇÅ[Éh
 	if (MODE == 1) {
-		make_netlist2(A, arr);
+		make_netlist3(A, arr);
 		sim_STL(A, arr);
 	}
 

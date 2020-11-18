@@ -4,8 +4,28 @@ void random_weight();
 void fix_weight();
 void output_result(double ex_time);
 
+void make_SVsig(char* pulse) {
+	int i;
+	char text[100] = "PULSE(0 6.6 SV 20p 20p 8n)";
+	double freq = 300e6;
+	double amp = 3.3;
+	double Tdelay = 2;
+	double r = 1 / freq;
+	double endtm = 20;
+	double check;
+	int SV[6];
+
+	sprintf_s(pulse, 100, "PULSE(0 %.1f %.1fn 20p 20p 8n)", amp, Tdelay);
+
+}
+
+
 
 int main(void) {
+	//****
+	//char pwsp[100];
+	//make_SVsig(pwsp);
+	//****
 	int it = 0;
 	clock_t start, end;
 	double ex_time;

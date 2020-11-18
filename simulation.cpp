@@ -1,5 +1,5 @@
 #include"Header.h"
-void make_SVsig(char* pulse);
+//void make_SVsig(char* pulse);
 
 void make_netlist(individual* A, int arr) {
 
@@ -137,6 +137,72 @@ void make_netlist2(individual* A, int arr) {
 
 }
 
+void make_netlist3(individual* A, int arr) {
+
+	FILE* fp;
+	errno_t error;
+	char filename[100];
+	int i, j;
+	int OBS1 = 4;
+	int OBS2 = 7;
+
+	double W[9];
+	double L[9];
+	double Rd;
+	double RT;
+	
+	for (i = 0; i < arr; i++) {
+		for (j = 0; j < DIM[0] - 2; j++) {
+			W[j] = A[i].X[j][0];
+		}
+		Rd = A[i].X[j][0]; //最後の2つは電源&終端抵抗
+		RT = A[i].X[j][0];
+		for (j = 0; j < DIM[1]; j++) {
+			L[j] = A[i].X[j][1];
+		}
+
+		sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		error = fopen_s(&fp, filename, "w");
+		if (error != 0) {
+			printf("生成ファイル,netを開けませんでした。");
+			exit(1);
+		}
+
+		else {
+
+			/*******ネットリスト生成***********************
+			OBS点は変数宣言時に指定（上）
+			電源・負荷等を変更したら.saveコマンドのチェック
+			伝送線路部分は基本的にいじらない
+			**********************************************/
+
+			//電源・負荷等
+			fprintf(fp, "*TML%03d\n"
+				"RT2 N%03d 0 %.0f\n"
+				"V1 Vin1 0 PULSE(0 6.6 2n 20p 20p 8n)\n"
+				"C1 N%03d 0 10p\n"
+				"C2 N%03d 0 10p\n"
+				"R1 Vin1 N001 %.0f\n"
+				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
+			//伝送線路
+			for (j = 0; j < DIM[1]; j++) {
+				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.2fp Z0 = %.2f\n", 
+					j + 1, j + 1, j + 2, L[j], W[j]);//N000 はGNDのためノード名に使わない
+			}
+			//シミュレーションコマンド
+			fprintf(fp, ".tran 14n\n"
+				".save V(N%03d)\n"
+				".save V(N%03d)\n"
+				".backanno\n"
+				".end\n", OBS1, OBS2);
+
+		}
+		fclose(fp);
+	}
+}
+
+
+
 void sim_STL(individual* A, int arr) {
 	//バッチファイル使用版　
 	//char command[100] = "C:/Users/kuboh/source/repos/SOGA/SOGA/sim_ind10.bat";
@@ -250,26 +316,16 @@ double getwidth(double X[][CHROM_SEC]) {
 }
 
 //改修中
-void make_SVsig(char* pulse) {
-	int i;
-	char text[100] = "PULSE(0 6.6 SV 20p 20p 8n)";
-	double freq = 300e6;
-	double amp = 3.3;
-	double r = 1 / freq;
-	double endtm = 20;
-	double check;
-	int SV[6];
-
-	for (i = 0; i < 6; i++) {
-		check = (double)(rand() / RAND_MAX);
-		if (check < 0.5)
-			SV[i] = 0;
-		else
-			SV[i] = 1;
-	}
-
-
-	//sprintf_s(text, "PULSE(0 %f SV 20p 20p 8n)", amp,);
-
-
-}
+//void make_SVsig(char* pulse) {
+//	int i;
+//	char text[100] = "PULSE(0 6.6 SV 20p 20p 8n)";
+//	double freq = 300e6;
+//	double amp = 3.3;
+//	double r = 1 / freq;
+//	double endtm = 20;
+//	double check;
+//	int SV[6];
+//
+//	sprintf_s(pulse, 26, "PULSE(0 %f SV 20p 20p 8n)", amp);
+//
+//}
