@@ -184,17 +184,20 @@ void initialize3(individual* A, int arr) {
 
 	int arrnum = sizeof discrete / sizeof(int);
 	for (i = 0; i < arr; i++) {
+		///Zの初期化
+		//Zを連続値で扱う場合
 		if (TYPE == 0) {
 			for (j = 0; j < DIM[0]; j++) {
 				A[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
 			}
 		}
+		//Zを離散値で扱う場合
 		else if (TYPE == 1) {
-			for (j = 0; j < 9; j++) {
+			for (j = 0; j < SEGMENT; j++) {
 				temp = rand() % arrnum;
 				A[i].X[j][0] = discrete[temp];
 			}
-			for (j; j < 11; j++) {
+			for (j; j < SEGMENT + 2; j++) {
 				A[i].X[j][0] = (double)(rand() % 99 + 1);
 			}
 		}
@@ -203,21 +206,46 @@ void initialize3(individual* A, int arr) {
 			exit(1);
 		}
 
+		///Tdの初期化
 		for (j = 0; j < DIM[1]; j++) {
 			A[i].X[j][1] = lower_bound[j][1] + (double)rand() / RAND_MAX * (upper_bound[j][1] - lower_bound[j][1]);
 		}
-		sum = A[i].X[0][1] + A[i].X[1][1] + A[i].X[2][1];
-		A[i].X[0][1] = A[i].X[0][1] / sum * 280;
-		A[i].X[1][1] = A[i].X[1][1] / sum * 280;
-		A[i].X[2][1] = A[i].X[2][1] / sum * 280;
-		sum = A[i].X[3][1] + A[i].X[4][1] + A[i].X[5][1];
-		A[i].X[3][1] = A[i].X[3][1] / sum * 224;
-		A[i].X[4][1] = A[i].X[4][1] / sum * 224;
-		A[i].X[5][1] = A[i].X[5][1] / sum * 224;
-		sum = A[i].X[6][1] + A[i].X[7][1] + A[i].X[8][1];
-		A[i].X[6][1] = A[i].X[6][1] / sum * 56;
-		A[i].X[7][1] = A[i].X[7][1] / sum * 56;
-		A[i].X[8][1] = A[i].X[8][1] / sum * 56;
+		//セクション1
+		sum = 0;
+		for (j = 0; j < L_NODE[0] - 1; j++) {
+			sum += A[i].X[j][1];
+		}
+		for (j = 0; j < L_NODE[0] - 1; j++) {
+			A[i].X[j][1] = A[i].X[j][1] / sum * SECTION_LENGTH[0];
+		}
+		//セクション2
+		sum = 0;
+		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+			sum += A[i].X[j][1];
+		}
+		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+			A[i].X[j][1] = A[i].X[j][1] / sum * SECTION_LENGTH[1];
+		}
+		//セクション3
+		sum = 0;
+		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+			sum += A[i].X[j][1];
+		}
+		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+			A[i].X[j][1] = A[i].X[j][1] / sum * SECTION_LENGTH[2];
+		}
+		//sum = A[i].X[0][1] + A[i].X[1][1] + A[i].X[2][1];
+		//A[i].X[0][1] = A[i].X[0][1] / sum * SECTION_LENGTH[0];
+		//A[i].X[1][1] = A[i].X[1][1] / sum * 280;
+		//A[i].X[2][1] = A[i].X[2][1] / sum * 280;
+		//sum = A[i].X[3][1] + A[i].X[4][1] + A[i].X[5][1];
+		//A[i].X[3][1] = A[i].X[3][1] / sum * 224;
+		//A[i].X[4][1] = A[i].X[4][1] / sum * 224;
+		//A[i].X[5][1] = A[i].X[5][1] / sum * 224;
+		//sum = A[i].X[6][1] + A[i].X[7][1] + A[i].X[8][1];
+		//A[i].X[6][1] = A[i].X[6][1] / sum * 56;
+		//A[i].X[7][1] = A[i].X[7][1] / sum * 56;
+		//A[i].X[8][1] = A[i].X[8][1] / sum * 56;
 
 	}
 

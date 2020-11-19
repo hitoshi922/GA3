@@ -17,5 +17,8 @@ int DIM[CHROM_SEC];
 int OBJ;
 int CHROM;
 int MIN_OR_MAX[OBJ_SEC];
+int SEGMENT;
+int L_NODE[DIM_SEC];
+double SECTION_LENGTH[DIM_SEC];
 
 double len_lim;

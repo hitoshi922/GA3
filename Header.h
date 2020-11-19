@@ -95,6 +95,9 @@ extern int OBJ;
 extern int CHROM;
 extern int max_min[OBJ_SEC];
 extern int MIN_OR_MAX[OBJ_SEC];
+extern int SEGMENT;
+extern int L_NODE[DIM_SEC]; //負荷容量を接続するノード
+extern double SECTION_LENGTH[DIM_SEC]; //負荷容量までの距離
 
 //algorithms
 void basic_GA();

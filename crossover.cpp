@@ -342,6 +342,11 @@ void uniform_crossover(double* parent1, double* parent2, double* child1, double*
 }
 
 void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2, int chrome) {
+	
+	const double length1 = SECTION_LENGTH[0];
+	const double length2 = SECTION_LENGTH[1];
+	const double length3 = SECTION_LENGTH[2];
+	
 	double alpha = 0.3;
 
 	int i;
@@ -372,28 +377,28 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 		max_cx[i] = max_x[i] + alpha * dx[i];
 	}
 	//êßå¿
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < L_NODE[0] - 1; i++) {
 		if (min_cx[i] < 0) {
 			min_cx[i] = 0;
 		}
-		if (max_cx[i] > 280) {
-			max_cx[i] = 280;
+		if (max_cx[i] > length1) {
+			max_cx[i] = length1;
 		}
 	}
-	for (i = 3; i < 6; i++) {
-		if (min_cx[i] < 280) {
-			min_cx[i] = 280;
+	for (i = L_NODE[0] - 1; i < L_NODE[1] - 1; i++) {
+		if (min_cx[i] < length1) {
+			min_cx[i] = length1;
 		}
-		if (max_cx[i] > 504) {
-			max_cx[i] = 504;
+		if (max_cx[i] > length1 + length2) {
+			max_cx[i] = length1 + length2;
 		}
 	}
-	for (i = 6; i < 9; i++) {
-		if (min_cx[i] < 504) {
-			min_cx[i] = 504;
+	for (i = L_NODE[1] - 1; i < SEGMENT; i++) {
+		if (min_cx[i] < length1 + length2) {
+			min_cx[i] = length1 + length2;
 		}
-		if (max_cx[i] > 560) {
-			max_cx[i] = 560;
+		if (max_cx[i] > length1 + length2 + length3) {
+			max_cx[i] = length1 + length2 + length3;
 		}
 	}
 

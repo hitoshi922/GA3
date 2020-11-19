@@ -143,20 +143,22 @@ void make_netlist3(individual* A, int arr) {
 	errno_t error;
 	char filename[100];
 	int i, j;
-	int OBS1 = 4;
-	int OBS2 = 7;
+	int OBS1 = L_NODE[0];
+	int OBS2 = L_NODE[1];
 
-	double W[9];
-	double L[9];
+	double W[DIM_SEC];
+	double L[DIM_SEC];
 	double Rd;
 	double RT;
 	
 	for (i = 0; i < arr; i++) {
+		//WL等に個体のパラメータを割り当て
 		for (j = 0; j < DIM[0] - 2; j++) {
 			W[j] = A[i].X[j][0];
 		}
-		Rd = A[i].X[j][0]; //最後の2つは電源&終端抵抗
-		RT = A[i].X[j][0];
+		//次2つはダンピング&終端抵抗
+		Rd = A[i].X[j][0]; 
+		RT = A[i].X[j+1][0];
 		for (j = 0; j < DIM[1]; j++) {
 			L[j] = A[i].X[j][1];
 		}
@@ -306,7 +308,7 @@ double get_result(int num) {
 double getwidth(double X[][CHROM_SEC]) {
 	int i;
 	double min = 300;
-	for (i = 0; i < 9; i++) {
+	for (i = 0; i < SEGMENT; i++) {
 		if (min > X[i][0]) {
 			min = X[i][0];
 		}
