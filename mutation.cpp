@@ -120,34 +120,34 @@ void STL_mutation1(individual* B, int chrome) {
 
 
 void STL_mutation2(individual* B, int chrome) {
-	int i, j;
+	int i, j, k;
 	double delta_L;
 	double delta_ot;
 	double n;
 	double temp;
 	for (i = 0; i < POP; i++) {
-		for (j = 0; j < 3; j++) {
+		for (j = 0; j < L_NODE[0] - 1; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
 				temp = 1.0 + (double)rand() / RAND_MAX * (B[i].X[j][chrome] - 1.0);
 				delta_L = B[i].X[j][chrome] - temp;
 				delta_ot = delta_L / 2;
-				B[i].X[0][chrome] = B[i].X[0][chrome] + delta_ot;
-				B[i].X[1][chrome] = B[i].X[1][chrome] + delta_ot;
-				B[i].X[2][chrome] = B[i].X[2][chrome] + delta_ot;
+				for (k = 0; k < L_NODE[0] - 1; k++) {
+					B[i].X[k][chrome] = B[i].X[k][chrome] + delta_ot;
+				}
 				B[i].X[j][chrome] = B[i].X[j][chrome] - delta_ot - delta_L;
 				B[i].eval_tag = 0; //–¢•]‰¿ˆµ‚¢
 			}
 		}
-		for (j; j < 6; j++) {
+		for (j; j < L_NODE[1] - 1; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
 				temp = 1.0 + (double)rand() / RAND_MAX * (B[i].X[j][chrome] - 1.0);
 				delta_L = B[i].X[j][chrome] - temp;
 				delta_ot = delta_L / 2;
-				B[i].X[3][chrome] = B[i].X[3][chrome] + delta_ot;
-				B[i].X[4][chrome] = B[i].X[4][chrome] + delta_ot;
-				B[i].X[5][chrome] = B[i].X[5][chrome] + delta_ot;
+				for (k = L_NODE[0] - 1; k < L_NODE[1] - 1; k++) {
+					B[i].X[k][chrome] = B[i].X[k][chrome] + delta_ot;
+				}
 				B[i].X[j][chrome] = B[i].X[j][chrome] - delta_ot - delta_L;
 				B[i].eval_tag = 0; //–¢•]‰¿ˆµ‚¢
 			}
@@ -159,9 +159,9 @@ void STL_mutation2(individual* B, int chrome) {
 				temp = 1.0 + (double)rand() / RAND_MAX * (B[i].X[j][chrome] - 1.0);
 				delta_L = B[i].X[j][chrome] - temp;
 				delta_ot = delta_L / 2;
-				B[i].X[6][chrome] = B[i].X[6][chrome] + delta_ot;
-				B[i].X[7][chrome] = B[i].X[7][chrome] + delta_ot;
-				B[i].X[8][chrome] = B[i].X[8][chrome] + delta_ot;
+				for (k = L_NODE[1] - 1; k < SEGMENT; k++) {
+					B[i].X[k][chrome] = B[i].X[k][chrome] + delta_ot;
+				}
 				B[i].X[j][chrome] = B[i].X[j][chrome] - delta_ot - delta_L;
 				B[i].eval_tag = 0; //–¢•]‰¿ˆµ‚¢
 			}

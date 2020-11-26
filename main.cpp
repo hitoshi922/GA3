@@ -234,18 +234,6 @@ void initialize3(individual* A, int arr) {
 		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
 			A[i].X[j][1] = A[i].X[j][1] / sum * SECTION_LENGTH[2];
 		}
-		//sum = A[i].X[0][1] + A[i].X[1][1] + A[i].X[2][1];
-		//A[i].X[0][1] = A[i].X[0][1] / sum * SECTION_LENGTH[0];
-		//A[i].X[1][1] = A[i].X[1][1] / sum * 280;
-		//A[i].X[2][1] = A[i].X[2][1] / sum * 280;
-		//sum = A[i].X[3][1] + A[i].X[4][1] + A[i].X[5][1];
-		//A[i].X[3][1] = A[i].X[3][1] / sum * 224;
-		//A[i].X[4][1] = A[i].X[4][1] / sum * 224;
-		//A[i].X[5][1] = A[i].X[5][1] / sum * 224;
-		//sum = A[i].X[6][1] + A[i].X[7][1] + A[i].X[8][1];
-		//A[i].X[6][1] = A[i].X[6][1] / sum * 56;
-		//A[i].X[7][1] = A[i].X[7][1] / sum * 56;
-		//A[i].X[8][1] = A[i].X[8][1] / sum * 56;
 
 	}
 

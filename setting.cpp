@@ -30,8 +30,8 @@ void experiment_setting() {
 	DIM[1] = SEGMENT;
 	OBJ = 2;
 	CHROM = 2;
-	L_NODE[0] = 4;
-	L_NODE[1] = 7;
+	L_NODE[0] = 5;
+	L_NODE[1] = 8;
 	SECTION_LENGTH[0] = 280;
 	SECTION_LENGTH[1] = 204;
 	SECTION_LENGTH[2] = 56;

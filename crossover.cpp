@@ -349,7 +349,7 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 	
 	double alpha = 0.3;
 
-	int i;
+	int i, j;
 	double dx[DIM_SEC];
 	double min_x[DIM_SEC];
 	double max_x[DIM_SEC];
@@ -419,46 +419,49 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 	}
 
 	//1p問題への仮対処
-	for (i = 0; i < 3; i++) {
+	//セクション1
+	for (i = 0; i < L_NODE[0] - 1; i++) {
 		if (child1[i] < 1) {
 			child1[i] = child1[i] + 1.5;
-			child1[0] = child1[0] - 0.5;
-			child1[1] = child1[1] - 0.5;
-			child1[2] = child1[2] - 0.5;
+			for (j = 0; j < L_NODE[0] - 1; j++) {
+				child1[j] = child1[j] - 0.5;
+			}
 		}
 		if (child2[i] < 1) {
 			child2[i] = child2[i] + 1.5;
-			child2[0] = child2[0] - 0.5;
-			child2[1] = child2[1] - 0.5;
-			child2[2] = child2[2] - 0.5;
+			for (j = 0; j < L_NODE[0] - 1; j++) {
+				child2[j] = child2[j] - 0.5;
+			}
 		}
 	}
-	for (i = 3; i < 6; i++) {
+	//セクション2
+	for (i; i < L_NODE[1] - 1; i++) {
 		if (child1[i] < 1) {
 			child1[i] = child1[i] + 1.5;
-			child1[3] = child1[3] - 0.5;
-			child1[4] = child1[4] - 0.5;
-			child1[5] = child1[5] - 0.5;
+			for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+				child1[j] = child1[j] - 0.5;
+			}
 		}
 		if (child2[i] < 1) {
 			child2[i] = child2[i] + 1.5;
-			child2[3] = child2[3] - 0.5;
-			child2[4] = child2[4] - 0.5;
-			child2[5] = child2[5] - 0.5;
+			for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+				child2[j] = child2[j] - 0.5;
+			}
 		}
 	}
-	for (i = 6; i < 9; i++) {
+	//セクション3
+	for (i ; i < SEGMENT; i++) {
 		if (child1[i] < 1) {
 			child1[i] = child1[i] + 1.5;
-			child1[6] = child1[6] - 0.5;
-			child1[7] = child1[7] - 0.5;
-			child1[8] = child1[8] - 0.5;
+			for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+				child1[j] = child1[j] - 0.5;
+			}
 		}
 		if (child2[i] < 1) {
 			child2[i] = child2[i] + 1.5;
-			child2[6] = child2[6] - 0.5;
-			child2[7] = child2[7] - 0.5;
-			child2[8] = child2[8] - 0.5;
+			for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+				child2[j] = child2[j] - 0.5;
+			}
 		}
 	}
 
@@ -468,15 +471,15 @@ void STL_2PX(double* parent1, double* parent2, double* child1, double* child2, i
 
 	int i;
 
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < L_NODE[0] - 1; i++) {
 		child1[i] = parent1[i];
 		child2[i] = parent2[i];
 	}
-	for (i; i < 6; i++) {
+	for (i; i < L_NODE[1] - 1; i++) {
 		child1[i] = parent2[i];
 		child2[i] = parent1[i];
 	}
-	for (i; i < DIM[chrome]; i++) {
+	for (i; i < SEGMENT; i++) {
 		child1[i] = parent1[i];
 		child2[i] = parent2[i];
 	}

@@ -51,7 +51,10 @@ constexpr int CROSSOVER[CHROM_SEC] = { 10,102 };
 /* CROSSOVER METHOD
 OnePX:0  TwoPX:1  UniX:2
 BLX_a:10  SBX:11
-STL_2PX:100  STL_SX:101  STL_BLX_a:102
+//LêÍóp
+STL_2PX:100  STL_BLX_a:102
+//ZêÍóp
+STL_SX:101
 */
 constexpr int MUTATION[CHROM_SEC] = { 2,101 };
 //Ç»Çµ:0Å@UNIM:1 PBM:2 100:STL_descrete 101:STL_continious;
