@@ -25,13 +25,13 @@ void setting() {
 //*******実験用設定**********
 void experiment_setting() {
 	int i, j;
-	SEGMENT = 10;
+	SEGMENT = 15;
 	DIM[0] = SEGMENT + 2; //セグメント数+抵抗数
 	DIM[1] = SEGMENT;
 	OBJ = 2;
 	CHROM = 2;
-	L_NODE[0] = 5;
-	L_NODE[1] = 8;
+	L_NODE[0] = 6;
+	L_NODE[1] = 11;
 	SECTION_LENGTH[0] = 280;
 	SECTION_LENGTH[1] = 204;
 	SECTION_LENGTH[2] = 56;

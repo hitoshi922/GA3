@@ -393,6 +393,18 @@ double getwidth(double X[][CHROM_SEC]) {
 	return min;
 }
 
+double getsegments(double X[][CHROM_SEC]) {
+	int i;
+	double count_segments = SEGMENT;
+	for (i = 0; i < SEGMENT - 1; i++) {
+		if (X[i][0] == X[i + 1][0]) {
+			count_segments--;
+		}
+	}
+
+	return count_segments;
+}
+
 //‰üC’†
 //void make_SVsig(char* pulse) {
 //	int i;

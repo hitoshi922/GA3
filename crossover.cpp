@@ -63,6 +63,7 @@ void crossover(individual* B) {
 	generation_change(B, cnt);
 }
 
+
 void X_junction(double* parent1, double* parent2, double* child1, double* child2, int chrome) {
 	switch (CROSSOVER[chrome])
 	{

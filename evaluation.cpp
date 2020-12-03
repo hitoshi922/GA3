@@ -9,7 +9,7 @@ void sphare(double X[][CHROM_SEC], double* f);
 void SCH(double X[][CHROM_SEC], double* f);
 void ZDT4(double X[][CHROM_SEC], double* f);
 void POL(double X[][CHROM_SEC], double* f);
-void assign_eval(int n);
+double assign_eval(double* fitness);
 void normalize();
 void normalize2();
 void culc_fitness(double* f, double* fitness);
@@ -47,7 +47,9 @@ void evaluation(individual* A, int arr) {
 		if (A[i].eval_tag == 0) {
 			if (MODE == 1) {
 				A[i].f[0] = get_result(i);
-				A[i].f[1] = getwidth(A[i].X);
+				//A[i].f[1] = getwidth(A[i].X);
+				A[i].f[1] = getsegments(A[i].X);
+				
 			}
 			else if (MODE == 0) {
 				eval_junction(A[i].X, A[i].f);
@@ -70,7 +72,7 @@ void evaluation(individual* A, int arr) {
 	//normalize();
 	//normalize2();
 	for (i = 0; i < POP; i++) {
-		assign_eval(i);
+		A[i].evaluation = assign_eval(A[i].fitness);
 	}
 
 }
@@ -111,19 +113,20 @@ void eval_junction(double X[][CHROM_SEC], double* f) {
 
 
 
-void assign_eval(int n) {
+double assign_eval(double* fitness) {
 	int i;
-	P[n].evaluation = 0;
+	double evaluation;
+	evaluation = 0;
 	if (MODE == 1) {
-		P[n].evaluation = P[n].fitness[0];
+		evaluation = fitness[0];
 	}
 	else {
 		if (OBJ == 1) {
-			P[n].evaluation = P[n].fitness[0];
+			evaluation = fitness[0];
 		}
 		else if (OBJ >= 2) {
 			for (i = 0; i < OBJ; i++) {
-				P[n].evaluation += P[n].w[i] * P[n].fitness[i];
+				//evaluation += w[i] * fitness[i];
 			}
 		}
 		else {
@@ -132,7 +135,7 @@ void assign_eval(int n) {
 		}
 	}
 
-
+	return evaluation;
 }
 
 void test_sphare(double X[][CHROM_SEC], double* f) {
@@ -265,7 +268,7 @@ void culc_fitness(double* f, double* fitness) {
 
 void culc_improvant_rate(double* f, double* fitness) {
 	fitness[0] = 9.66602555e-9 / f[0];
-	fitness[1] = f[1];
+	fitness[1] = 1 / f[1];
 }
 
 

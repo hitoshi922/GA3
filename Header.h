@@ -9,12 +9,12 @@
 
 #define ALGO 10 //0:simple  10:NSGA2
 
-#define TYPE 0 //0:contenious  1:discrete
-#define MODE 1//0:benchmark  1:experiment
+#define TYPE 1 //0:contenious  1:discrete
+#define MODE 1 //0:benchmark  1:experiment
 
 constexpr int TRIAL = 1;
 
-#define DIM_SEC 15
+#define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
 constexpr int POP = 10;
@@ -47,7 +47,7 @@ UNIFORM:0  TORNAMENT:1  ROULETTE:2
 crowding:10
 */
 
-constexpr int CROSSOVER[CHROM_SEC] = { 10,102 };
+constexpr int CROSSOVER[CHROM_SEC] = { 101,102 };
 /* CROSSOVER METHOD
 OnePX:0  TwoPX:1  UniX:2
 BLX_a:10  SBX:11
@@ -56,7 +56,7 @@ STL_2PX:100  STL_BLX_a:102
 //ZêÍóp
 STL_SX:101
 */
-constexpr int MUTATION[CHROM_SEC] = { 2,101 };
+constexpr int MUTATION[CHROM_SEC] = { 100,101 };
 //Ç»Çµ:0Å@UNIM:1 PBM:2 100:STL_descrete 101:STL_continious;
 
 #define TORNAMENT_SIZE 2
@@ -152,6 +152,8 @@ void make_netlist3(individual* A, int arr);
 void sim_STL(individual* A, int arr);
 double get_result(int i);
 double getwidth(double X[][CHROM_SEC]);
+double getsegments(double X[][CHROM_SEC]);
+
 
 
 

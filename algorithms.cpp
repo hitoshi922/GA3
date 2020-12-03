@@ -34,10 +34,26 @@ void basic_GA() {
 
 }
 
+void MGG() {
+	int parent_selecter[2];
+	int cnt = 0;
+	init_ind(P, POP);
+	do {
+		printf("gen%d\n", cnt);
+		non_restored_extract(POP, parent_selecter, 2);
+		//crossover();
+		//mutation();
+		//evaluation();
+		//generation_change();
+		cnt++;
+	} while (cnt < GEN);
+	evaluation(P, POP);
+}
+
 void NSGA2() {//- front F
 	int cnt = 0;
-init_ind(Q, POP);
-
+	int ranks;
+	init_ind(Q, POP);
 
 	evaluation(Q, POP);
 	ind_cpy(R, Q, POP); //探索集団Qを全集団Rにコピー
@@ -60,6 +76,12 @@ init_ind(Q, POP);
 		evaluation(Q, POP);
 		create_R(P, Q, R);
 		non_dominated_sort(POP + POP); //-F,R  支配数計測　パレートフロント作成
+
+		for (int i = 0; i < F.rank_arr; i++) {
+			printf("rank[%d]=%d ", i, F.num_arr[i]);
+		}
+		printf("\n\n");
+
 		clear_POP(P, POP);
 		//create_new_P(P); //-F  アーカイブには元の情報アリ
 		crowding_distance(P);//-F  混雑距離を計算 + Pにアーカイブ
@@ -109,42 +131,48 @@ void count_domination(individual* R, int arr) {
 	//R[1].fitness[1] = 1;
 
 	//被支配数計測
-	for (i = 0; i < arr; i++) {
-		for (j = (i + 1); j < arr; j++) {
-			cnt_dominated_fitness = 0;
-
-			for (k = 0; k < OBJ; k++) {
-				if (R[i].fitness[k] > R[j].fitness[k]) //R[i]のほうが目的関数が大きいとき
-					cnt_dominated_fitness = cnt_dominated_fitness + 1;
-			}
-			if (cnt_dominated_fitness == (OBJ)) {
-				cnt_dominated_number[j] = cnt_dominated_number[j] + 1;
-				R[i].dom_ind[R[i].domination] = j;
-				R[i].domination++;
-			}
-			if (cnt_dominated_fitness == 0) {
-				cnt_dominated_number[i] = cnt_dominated_number[i] + 1;
-				R[j].dom_ind[R[j].domination] = i;
-				R[j].domination++;
-			}
-		}
-	}
-
 	//for (i = 0; i < arr; i++) {
-	//	for (j = 0; j < arr; j++) {
-	//		cnt = 0;
+	//	for (j = (i + 1); j < arr; j++) {
+	//		cnt_dominated_fitness = 0;
+
 	//		for (k = 0; k < OBJ; k++) {
-	//			if (R[i].fitness[k] >= R[j].fitness[k]){
-	//				cnt++;
-	//			}
+	//			if (R[i].fitness[k] >= R[j].fitness[k]) //R[i]のほうが目的関数が大きいとき
+	//				cnt_dominated_fitness = cnt_dominated_fitness + 1;
 	//		}
-	//		if (cnt == OBJ) {
+	//		if (cnt_dominated_fitness == (OBJ)) {
+	//			cnt_dominated_number[j] = cnt_dominated_number[j] + 1;
 	//			R[i].dom_ind[R[i].domination] = j;
 	//			R[i].domination++;
-	//			R[j].dominated++;
+	//		}
+	//		if (cnt_dominated_fitness == 0) {
+	//			cnt_dominated_number[i] = cnt_dominated_number[i] + 1;
+	//			R[j].dom_ind[R[j].domination] = i;
+	//			R[j].domination++;
 	//		}
 	//	}
 	//}
+
+
+	//確実な方
+	for (i = 0; i < arr; i++) {
+		for (j = 0; j < arr; j++) {
+			//自分同士での比較を避ける
+			if (i != j) {
+				cnt_dominated_fitness = 0;
+
+				for (k = 0; k < OBJ; k++) {
+					if (R[i].fitness[k] >= R[j].fitness[k]) //R[i]のほうが目的関数が大きいとき
+						cnt_dominated_fitness = cnt_dominated_fitness + 1;
+				}
+
+				if (cnt_dominated_fitness == (OBJ)) {
+					cnt_dominated_number[j] = cnt_dominated_number[j] + 1;
+					R[i].dom_ind[R[i].domination] = j;
+					R[i].domination++;
+				}
+			}
+		}
+	}
 
 	//配列移し替え
 	for (i = 0; i < arr; i++) {
@@ -360,7 +388,7 @@ void format_pop(individual* ind, int arr) {
 		ind[i].crowding_distance = 0;
 		ind[i].domination = 0;
 		ind[i].dominated = 0;
-		ind[i].evaluation = 0;
+		//ind[i].evaluation = 0;
 		for (j = 0; j < POP + POP; j++) {
 			ind[i].dom_ind[j] = -1;
 		}
