@@ -36,7 +36,7 @@ void basic_GA() {
 
 void NSGA2() {//- front F
 	int cnt = 0;
-	init_ind(Q, POP);
+init_ind(Q, POP);
 
 
 	evaluation(Q, POP);

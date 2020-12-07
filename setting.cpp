@@ -25,10 +25,16 @@ void setting() {
 //*******実験用設定**********
 void experiment_setting() {
 	int i, j;
-	DIM[0] = 11;
-	DIM[1] = 9;
+	SEGMENT = 10;
+	DIM[0] = SEGMENT + 2; //セグメント数+抵抗数
+	DIM[1] = SEGMENT;
 	OBJ = 2;
 	CHROM = 2;
+	L_NODE[0] = 5;
+	L_NODE[1] = 8;
+	SECTION_LENGTH[0] = 280;
+	SECTION_LENGTH[1] = 204;
+	SECTION_LENGTH[2] = 56;
 	for (i = 0; i < DIM[0]; i++) {
 		upper_bound[i][0] = 120;
 		lower_bound[i][0] = 30;
