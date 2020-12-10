@@ -38,6 +38,7 @@ void evaluation(individual* A, int arr) {
 
 	//é¿å±ÉÇÅ[Éh
 	if (MODE == 1) {
+		//make_netlist_test1(A, arr);
 		make_netlist3(A, arr);
 		sim_STL(A, arr);
 	}
@@ -48,7 +49,8 @@ void evaluation(individual* A, int arr) {
 			if (MODE == 1) {
 				A[i].f[0] = get_result(i);
 				//A[i].f[1] = getwidth(A[i].X);
-				A[i].f[1] = getsegments(A[i].X);
+				A[i].f[1] = get_w_range(A[i].X);
+				//A[i].f[1] = getsegments(A[i].X);
 				
 			}
 			else if (MODE == 0) {

@@ -63,6 +63,54 @@ void crossover(individual* B) {
 	generation_change(B, cnt);
 }
 
+void MGG_crossover(individual* B, int* parent_select) {
+	int i, j;
+	int cnt;
+	int inc = 0;
+	int cnd_rand;
+	int cnd_elite;
+	double parent1[DIM_SEC];
+	double parent2[DIM_SEC];
+	double child1[DIM_SEC];
+	double child2[DIM_SEC];
+
+	cnt = 0;
+	sel[0] = parent_select[0];
+	sel[1] = parent_select[1];
+	num_of_children = 20;
+
+	//親個体のファミリーへの移し替え
+	nextP[0] = B[sel[0]];
+	nextP[1] = B[sel[1]];
+	cnt = cnt + 2;
+	//子個体の生成
+	do {
+		for (i = 0; i < CHROM; i++) {
+			assign_parent(B, parent1, parent2, i);
+			X_junction(parent1, parent2, child1, child2, i);
+			inc = keep_nextP(cnt, child1, child2, i);
+		}
+		cnt = cnt + inc;
+	} while (cnt < num_of_children);
+
+	//mutation
+
+	//全固体の評価
+	evaluation(nextP, num_of_children);
+
+	//戻す個体の選択
+	cnd_elite = 0;
+	for (i = 0; i < num_of_children; i++) {
+		if (nextP[i].fitness[0] > nextP[cnd_elite].fitness[0]) {
+			cnd_elite = i;
+		}
+	}
+	do {
+		cnd_rand = uniform_random(num_of_children);
+	} while (cnd_rand == cnd_elite);
+
+}
+
 
 void X_junction(double* parent1, double* parent2, double* child1, double* child2, int chrome) {
 	switch (CROSSOVER[chrome])
@@ -520,6 +568,8 @@ void STL_SX(double* parent1, double* parent2, double* child1, double* child2, in
 	}
 
 }
+
+
 
 
 

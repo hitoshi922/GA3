@@ -32,6 +32,7 @@ void experiment_setting() {
 	CHROM = 2;
 	L_NODE[0] = 6;
 	L_NODE[1] = 11;
+	QTY_SECTION = 2;
 	SECTION_LENGTH[0] = 280;
 	SECTION_LENGTH[1] = 204;
 	SECTION_LENGTH[2] = 56;

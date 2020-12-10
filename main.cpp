@@ -42,6 +42,9 @@ int main(void) {
 		if (ALGO == 0) {
 			basic_GA();
 		}
+		else if (ALGO == 1) {
+			MGG();
+		}
 		else if (ALGO == 10) {
 			NSGA2();
 		}
@@ -308,7 +311,7 @@ void output_result(double ex_time) {
 		sprintf_s(filename, "result.txt");
 	}
 	else {
-		sprintf_s(filename, "C:/Users/kuboh/source/repos/SOGA/result/result%2d%2d%d%d.txt", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min);
+		sprintf_s(filename, "C:/Users/kuboh/source/repos/SOGA/result/%02d%02d-%02d%02d[p]%d[g]%d.txt", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, POP, GEN);
 	}
 
 	error = fopen_s(&fp, filename, "w");
@@ -364,7 +367,7 @@ void output_result(double ex_time) {
 	fclose(fp);
 
 	//ここからcsvファイル出力
-	sprintf_s(filename2, "C:/Users/kuboh/source/repos/SOGA/result/final%2d%2d%d%d.csv", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min);
+	sprintf_s(filename2, "C:/Users/kuboh/source/repos/SOGA/result/final%02d%02d-%02d%02d[p]%d[g]%d.csv", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, POP, GEN);
 	error2 = fopen_s(&fp2, filename2, "w");
 	if (error2 != 0) {
 		printf("結果ファイル.csvを開けませんでした。");

@@ -41,7 +41,7 @@ void MGG() {
 	do {
 		printf("gen%d\n", cnt);
 		non_restored_extract(POP, parent_selecter, 2);
-		//crossover();
+		MGG_crossover(P, parent_selecter);
 		//mutation();
 		//evaluation();
 		//generation_change();
