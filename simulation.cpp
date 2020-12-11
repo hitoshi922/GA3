@@ -34,7 +34,7 @@ void make_netlist(individual* A, int arr) {
 		//L[8] = A[i].X[17];
 
 
-		sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
 		error = fopen_s(&fp, filename, "w");
 		if (error != 0) {
 			printf("生成ファイル,netを開けませんでした。");
@@ -102,7 +102,7 @@ void make_netlist2(individual* A, int arr) {
 		L[6] = A[i].X[6][1];
 		L[7] = A[i].X[7][1];
 		L[8] = A[i].X[8][1];
-		sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
 		error = fopen_s(&fp, filename, "w");
 		if (error != 0) {
 			printf("生成ファイル,netを開けませんでした。");
@@ -163,7 +163,7 @@ void make_netlist3(individual* A, int arr) {
 			L[j] = A[i].X[j][1];
 		}
 
-		sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
 		error = fopen_s(&fp, filename, "w");
 		if (error != 0) {
 			printf("生成ファイル,netを開けませんでした。");
@@ -239,7 +239,7 @@ void make_netlist4(individual* A, int arr) {
 			L[j] = A[i].X[j][1];
 		}
 
-		sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
 		error = fopen_s(&fp, filename, "w");
 		if (error != 0) {
 			printf("生成ファイル,netを開けませんでした。");
@@ -351,7 +351,7 @@ void sim_STL(individual* A, int arr) {
 	int i;
 	char cmd[100];
 	for (i = 0; i < arr; i++) {
-		sprintf_s(cmd, "XVIIx64 -b -ascii C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		sprintf_s(cmd, "XVIIx64 -b -ascii C:/LTspice_results/TML%03d.net", i);
 		if (A[i].eval_tag == 0) { //未評価ならシミュレーション
 			system(cmd);
 		}
@@ -377,7 +377,7 @@ double get_result(int num) {
 	double diff;
 	int cnt;
 
-	sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.raw", num);
+	sprintf_s(filename, "C:/LTspice_results/TML%03d.raw", num);
 
 
 	error = fopen_s(&fp, filename, "r");
