@@ -1,4 +1,6 @@
 #include "Header.h"
+
+//NSGA2
 void create_R(individual* P, individual* Q, individual* R);
 void non_dominated_sort(int arr); //- front F
 void count_domination(individual* R, int arr);
@@ -10,6 +12,10 @@ individual create_new_Q(individual* P);
 void format_front();
 void format_pop(individual* ind, int arr);
 
+
+//MGG
+void select_new_comer(individual* A, int* new_comer_selector, int arr);
+void MGG_generation_change(individual* P, individual* nextP, int* parent_selector, int* new_comer_selector);;
 
 void put_elite() {
 	P[0] = elite[0];
@@ -27,7 +33,7 @@ void basic_GA() {
 			break;
 		}
 		crossover(P);
-		mutation(P);
+		mutation(P, POP);
 		put_elite(); //テスト用
 		cnt++;
 	} while (cnt < GEN);
@@ -35,18 +41,20 @@ void basic_GA() {
 }
 
 void MGG() {
+	int qty_family = 22;
 	int parent_selecter[2];
+	int new_comer_selector[2];
 	int cnt = 0;
 	init_ind(P, POP);
 	do {
 		printf("gen%d\n", cnt);
 		non_restored_extract(POP, parent_selecter, 2);
-		MGG_crossover(P, parent_selecter);
-		//mutation();
-		//evaluation();
-		//generation_change();
+		MGG_crossover(P, parent_selecter, qty_family);//mutationも一体です
+		select_new_comer(nextP, new_comer_selector, qty_family);
+		MGG_generation_change(P, nextP, parent_selecter, new_comer_selector);
 		cnt++;
 	} while (cnt < GEN);
+	//もしかして一度も選ばれていない個体を評価するため
 	evaluation(P, POP);
 }
 
@@ -89,7 +97,7 @@ void NSGA2() {//- front F
 		ind_cpy(Q, P, POP); //上のcrowdingの代わり
 		record(P, POP, cnt);
 		crossover(Q);
-		mutation(Q);
+		mutation(Q, POP);
 		cnt++;
 	} while (cnt < GEN);
 
@@ -393,4 +401,28 @@ void format_pop(individual* ind, int arr) {
 			ind[i].dom_ind[j] = -1;
 		}
 	}
+}
+
+//MGG
+void select_new_comer(individual* A, int* new_comer_selector, int arr) {
+	//戻す個体の選択
+	int i;
+	int cnd_elite = 0;
+	int cnd_rand = 0;
+	cnd_elite = 0;
+	for (i = 0; i < arr; i++) {
+		if (nextP[i].fitness[0] > nextP[cnd_elite].fitness[0]) {
+			cnd_elite = i;
+		}
+	}
+	do {
+		cnd_rand = uniform_random(arr);
+	} while (cnd_rand == cnd_elite);
+	new_comer_selector[0] = cnd_elite;
+	new_comer_selector[1] = cnd_rand;
+}
+
+void MGG_generation_change(individual* P, individual* nextP, int* parent_selector, int* new_comer_selector) {
+	P[parent_selector[0]] = nextP[new_comer_selector[0]];
+	P[parent_selector[1]] = nextP[new_comer_selector[1]];
 }

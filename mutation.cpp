@@ -1,28 +1,28 @@
 #include "Header.h"
 
-void uniform_mutation(individual* B, int chrome);
-void PBM(individual* B, int chrome);
-void STL_mutation1(individual* B, int chrome);
-void STL_mutation2(individual* B, int chrome);
+void uniform_mutation(individual* B,int arr, int chrome);
+void PBM(individual* B,int arr, int chrome);
+void STL_mutation1(individual* B,int arr, int chrome);
+void STL_mutation2(individual* B,int arr, int chrome);
 
 
-void mutation(individual* B) {
+void mutation(individual* B, int arr) {
 	int i;
 	for (i = 0; i < CHROM; i++) {
 		switch (MUTATION[i]) {
 		case 0:
 			break;
 		case 1:
-			uniform_mutation(B, i);
+			uniform_mutation(B, arr, i);
 			break;
 		case 2:
-			PBM(B, i);
+			PBM(B, arr, i);
 			break;
 		case 100:
-			STL_mutation1(B, i);
+			STL_mutation1(B, arr, i);
 			break;
 		case 101:
-			STL_mutation2(B, i);
+			STL_mutation2(B, arr, i);
 			break;
 		default:
 			printf("mutation : check MUTATION value.\n");
@@ -33,10 +33,10 @@ void mutation(individual* B) {
 
 }
 
-void uniform_mutation(individual* B, int chrome) {
+void uniform_mutation(individual* B, int arr, int chrome) {
 	int i, j;
 	double n;
-	for (i = 0; i < POP; i++) {
+	for (i = 0; i < arr; i++) {
 		for (j = 0; j < DIM[chrome]; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
@@ -48,7 +48,7 @@ void uniform_mutation(individual* B, int chrome) {
 }
 
 //parameter-based mutation
-void PBM(individual* B, int chrome) {
+void PBM(individual* B,int arr, int chrome) {
 	int i, j;
 	double nm = 20;
 	double temp;
@@ -59,7 +59,7 @@ void PBM(individual* B, int chrome) {
 	double uc;
 	double ud;
 
-	for (j = 0; j < POP; j++) {
+	for (j = 0; j < arr; j++) {
 		//“Ë‘R•ÏˆÙ—¦‚ÉŠî‚Ã‚¢‚Ä•ÏˆÙ‚·‚é‚©”Û‚©
 		ud = (double)rand() / RAND_MAX;
 		if (ud < MUTATION_RATE[chrome]) {
@@ -88,14 +88,14 @@ void PBM(individual* B, int chrome) {
 }
 
 
-void STL_mutation1(individual* B, int chrome) {
+void STL_mutation1(individual* B,int arr, int chrome) {
 	int i, j;
 	double n;
 	int sel;
 	int temp;
 	int arrnum;
 	arrnum = sizeof discrete / sizeof(int);
-	for (i = 0; i < POP; i++) {
+	for (i = 0; i < arr; i++) {
 		for (j = 0; j < 9; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
@@ -119,13 +119,13 @@ void STL_mutation1(individual* B, int chrome) {
 }
 
 
-void STL_mutation2(individual* B, int chrome) {
+void STL_mutation2(individual* B,int arr, int chrome) {
 	int i, j, k;
 	double delta_L;
 	double delta_ot;
 	double n;
 	double temp;
-	for (i = 0; i < POP; i++) {
+	for (i = 0; i < arr; i++) {
 		for (j = 0; j < L_NODE[0] - 1; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {

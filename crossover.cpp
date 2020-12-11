@@ -63,12 +63,11 @@ void crossover(individual* B) {
 	generation_change(B, cnt);
 }
 
-void MGG_crossover(individual* B, int* parent_select) {
+void MGG_crossover(individual* B, int* parent_select, int qty_family) {
 	int i, j;
 	int cnt;
 	int inc = 0;
-	int cnd_rand;
-	int cnd_elite;
+
 	double parent1[DIM_SEC];
 	double parent2[DIM_SEC];
 	double child1[DIM_SEC];
@@ -77,9 +76,16 @@ void MGG_crossover(individual* B, int* parent_select) {
 	cnt = 0;
 	sel[0] = parent_select[0];
 	sel[1] = parent_select[1];
-	num_of_children = 20;
+
+	num_of_children = qty_family;
 
 	//親個体のファミリーへの移し替え
+	//nextP[POP]<number_of_childrenだとバグる、そのための強制停止
+	if (num_of_children > POP) {
+		printf("num_of_children > POP, check MGG_crossover\n");
+		exit(1);
+	}
+
 	nextP[0] = B[sel[0]];
 	nextP[1] = B[sel[1]];
 	cnt = cnt + 2;
@@ -94,20 +100,12 @@ void MGG_crossover(individual* B, int* parent_select) {
 	} while (cnt < num_of_children);
 
 	//mutation
+	mutation(nextP, num_of_children);
 
 	//全固体の評価
 	evaluation(nextP, num_of_children);
 
-	//戻す個体の選択
-	cnd_elite = 0;
-	for (i = 0; i < num_of_children; i++) {
-		if (nextP[i].fitness[0] > nextP[cnd_elite].fitness[0]) {
-			cnd_elite = i;
-		}
-	}
-	do {
-		cnd_rand = uniform_random(num_of_children);
-	} while (cnd_rand == cnd_elite);
+
 
 }
 
