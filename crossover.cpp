@@ -423,6 +423,7 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 		min_cx[i] = min_x[i] - alpha * dx[i];
 		max_cx[i] = max_x[i] + alpha * dx[i];
 	}
+
 	//制限
 	for (i = 0; i < L_NODE[0] - 1; i++) {
 		if (min_cx[i] < 0) {
@@ -467,50 +468,66 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 
 	//1p問題への仮対処
 	//セクション1
-	for (i = 0; i < L_NODE[0] - 1; i++) {
-		if (child1[i] < 1) {
-			child1[i] = child1[i] + 1.5;
-			for (j = 0; j < L_NODE[0] - 1; j++) {
-				child1[j] = child1[j] - 0.5;
-			}
-		}
-		if (child2[i] < 1) {
-			child2[i] = child2[i] + 1.5;
-			for (j = 0; j < L_NODE[0] - 1; j++) {
-				child2[j] = child2[j] - 0.5;
-			}
-		}
-	}
-	//セクション2
-	for (i; i < L_NODE[1] - 1; i++) {
-		if (child1[i] < 1) {
-			child1[i] = child1[i] + 1.5;
-			for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
-				child1[j] = child1[j] - 0.5;
-			}
-		}
-		if (child2[i] < 1) {
-			child2[i] = child2[i] + 1.5;
-			for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
-				child2[j] = child2[j] - 0.5;
-			}
-		}
-	}
-	//セクション3
-	for (i ; i < SEGMENT; i++) {
-		if (child1[i] < 1) {
-			child1[i] = child1[i] + 1.5;
-			for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
-				child1[j] = child1[j] - 0.5;
-			}
-		}
-		if (child2[i] < 1) {
-			child2[i] = child2[i] + 1.5;
-			for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
-				child2[j] = child2[j] - 0.5;
-			}
-		}
-	}
+	//for (i = 0; i < L_NODE[0] - 1; i++) {
+	//	if (child1[i] < 1) {
+	//		child1[i] = child1[i] + 1.5;
+	//		for (j = 0; j < L_NODE[0] - 1; j++) {
+	//			child1[j] = child1[j] - 0.5;
+	//		}
+	//	}
+	//	if (child2[i] < 1) {
+	//		child2[i] = child2[i] + 1.5;
+	//		for (j = 0; j < L_NODE[0] - 1; j++) {
+	//			child2[j] = child2[j] - 0.5;
+	//		}
+	//	}
+	//}
+	////セクション2
+	//for (i; i < L_NODE[1] - 1; i++) {
+	//	if (child1[i] < 1) {
+	//		child1[i] = child1[i] + 1.5;
+	//		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+	//			child1[j] = child1[j] - 0.5;
+	//		}
+	//	}
+	//	if (child2[i] < 1) {
+	//		child2[i] = child2[i] + 1.5;
+	//		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+	//			child2[j] = child2[j] - 0.5;
+	//		}
+	//	}
+	//}
+	////セクション3
+	//for (i ; i < SEGMENT; i++) {
+	//	if (child1[i] < 1) {
+	//		child1[i] = child1[i] + 1.5;
+	//		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+	//			child1[j] = child1[j] - 0.5;
+	//		}
+	//	}
+	//	if (child2[i] < 1) {
+	//		child2[i] = child2[i] + 1.5;
+	//		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+	//			child2[j] = child2[j] - 0.5;
+	//		}
+	//	}
+	//}
+
+	////extra operation for timestep problem
+	//for (i = 0; i < SEGMENT; i++) {
+	//	if (child1[i] < 0.5) {
+	//		child1[i] = 0.5;
+	//	}
+	//	if (child2[i] < 0.5) {
+	//		child2[i] = 0.5;
+	//	}
+	//}
+
+	printf("crossover\n");
+	printf("%f\n", child1[0] + child1[1] + child1[2] + child1[3] + child1[4]);
+	printf("%f\n", child1[5] + child1[6] + child1[7] + child1[8] + child1[9]);
+	printf("%f\n", child1[10] + child1[11] + child1[12] + child1[13] + child1[14]);
+
 
 }
 

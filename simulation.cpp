@@ -163,6 +163,14 @@ void make_netlist3(individual* A, int arr) {
 			L[j] = A[i].X[j][1];
 		}
 
+		//1p問題仮対処
+		for (j = 0; j < SEGMENT; j++) {
+			if (L[j] < 0.5) {
+				L[j] = 0.5;
+			}
+		}
+
+
 		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
 		error = fopen_s(&fp, filename, "w");
 		if (error != 0) {
@@ -188,7 +196,7 @@ void make_netlist3(individual* A, int arr) {
 				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
 			//伝送線路
 			for (j = 0; j < DIM[1]; j++) {
-				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.2fp Z0 = %.2f\n", 
+				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.1fp Z0 = %.2f\n", 
 					j + 1, j + 1, j + 2, L[j], W[j]);//N000 はGNDのためノード名に使わない
 			}
 			//シミュレーションコマンド
@@ -304,7 +312,7 @@ void make_netlist_test1(individual* A, int arr) {
 			L[j] = A[i].X[j][1];
 		}
 
-		sprintf_s(filename, "C:/Users/kuboh/Documents/LTspice_results/TML%03d.net", i);
+		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
 		error = fopen_s(&fp, filename, "w");
 		if (error != 0) {
 			printf("生成ファイル,netを開けませんでした。");

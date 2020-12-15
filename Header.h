@@ -8,7 +8,7 @@
 #include<time.h>
 
 //NSGA2を使うときは交叉率を100%にすること
-#define ALGO 1 //0:simple  1:MGG  10:NSGA2
+#define ALGO 10 //0:simple  1:MGG  10:NSGA2
 
 
 //離散・連続を変更したら、交叉・突然変異を変更
@@ -20,8 +20,8 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 30;
-constexpr int GEN = 50;
+constexpr int POP = 50;
+constexpr int GEN = 300;
 constexpr double CROSSOVER_RATE = 1; // *100[%];
 constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
 

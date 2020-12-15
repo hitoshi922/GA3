@@ -311,7 +311,7 @@ void output_result(double ex_time) {
 		sprintf_s(filename, "result.txt");
 	}
 	else {
-		sprintf_s(filename, "C:/Users/kuboh/source/repos/SOGA/result/%02d%02d-%02d%02d[p]%d[g]%d.txt", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, POP, GEN);
+		sprintf_s(filename, "C:/ex_result/%02d%02d-%02d%02d[p]%d[g]%d.txt", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, POP, GEN);
 	}
 
 	error = fopen_s(&fp, filename, "w");
@@ -333,6 +333,18 @@ void output_result(double ex_time) {
 		}
 		fprintf(fp, "実行時間 : %.2fs\n", ex_time);
 		fprintf(fp, "*******************************\n");
+		if (ALGO == 0) {
+			fprintf(fp, "ALGO : simpleGA\n");
+		}
+		else if (ALGO == 1) {
+			fprintf(fp, "ALGO : MGG\n");
+		}
+		else if (ALGO == 10) {
+			fprintf(fp, "ALGO : NSGA2\n");
+		}
+		else {
+			fprintf(fp, "ALGO : %d\n", ALGO);
+		}
 		fprintf(fp, "MODE : %d\n", MODE);
 		fprintf(fp, "EVALUATION : %d\n", EVALUATION);
 		fprintf(fp, "POPULATION : %d\n", POP);
@@ -367,7 +379,7 @@ void output_result(double ex_time) {
 	fclose(fp);
 
 	//ここからcsvファイル出力
-	sprintf_s(filename2, "C:/Users/kuboh/source/repos/SOGA/result/final%02d%02d-%02d%02d[p]%d[g]%d.csv", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, POP, GEN);
+	sprintf_s(filename2, "C:/ex_result/final%02d%02d-%02d%02d[p]%d[g]%d.csv", local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, POP, GEN);
 	error2 = fopen_s(&fp2, filename2, "w");
 	if (error2 != 0) {
 		printf("結果ファイル.csvを開けませんでした。");
