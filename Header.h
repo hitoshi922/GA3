@@ -20,7 +20,7 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 50;
+constexpr int POP = 20;
 constexpr int GEN = 300;
 constexpr double CROSSOVER_RATE = 1; // *100[%];
 constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
@@ -158,9 +158,11 @@ void benchmark_setting();
 void make_netlist(individual* A, int arr);
 void make_netlist2(individual* A, int arr);
 void make_netlist3(individual* A, int arr);
+void make_netlist5(individual* A, int arr);
 void make_netlist_test1(individual* A, int arr);
 void sim_STL(individual* A, int arr);
 double get_result(int i);
+double get_result2(int i);
 double getwidth(double X[][CHROM_SEC]);
 double get_w_range(double X[][CHROM_SEC]);
 double getsegments(double X[][CHROM_SEC]);

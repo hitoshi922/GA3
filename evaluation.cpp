@@ -39,7 +39,8 @@ void evaluation(individual* A, int arr) {
 	//実験モード
 	if (MODE == 1) {
 		//make_netlist_test1(A, arr);
-		make_netlist3(A, arr);
+		//make_netlist3(A, arr);//安定版
+		make_netlist5(A, arr);
 		sim_STL(A, arr);
 	}
 
@@ -47,7 +48,8 @@ void evaluation(individual* A, int arr) {
 	for (i = 0; i < arr; i++) {
 		if (A[i].eval_tag == 0) {
 			if (MODE == 1) {
-				A[i].f[0] = get_result(i);
+				//A[i].f[0] = get_result(i);
+				A[i].f[0] = get_result2(i); //make_netlist5とセットで使うこと
 				//A[i].f[1] = getwidth(A[i].X);
 				A[i].f[1] = get_w_range(A[i].X);
 				//A[i].f[1] = getsegments(A[i].X);
@@ -269,7 +271,7 @@ void culc_fitness(double* f, double* fitness) {
 }
 
 void culc_improvant_rate(double* f, double* fitness) {
-	fitness[0] = 9.66602555e-9 / f[0];
+	fitness[0] = 1.05784e-8  / f[0];
 	fitness[1] = 1 / f[1];
 }
 

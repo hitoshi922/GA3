@@ -34,7 +34,7 @@ void experiment_setting() {
 	L_NODE[1] = 11;
 	QTY_SECTION = 2;
 	SECTION_LENGTH[0] = 280;
-	SECTION_LENGTH[1] = 204;
+	SECTION_LENGTH[1] = 224;
 	SECTION_LENGTH[2] = 56;
 	for (i = 0; i < DIM[0]; i++) {
 		upper_bound[i][0] = 120;
