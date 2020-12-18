@@ -62,7 +62,6 @@ void NSGA2() {//- front F
 	int cnt = 0;
 	int ranks;
 	init_ind(Q, POP);
-
 	evaluation(Q, POP);
 	ind_cpy(R, Q, POP); //探索集団Qを全集団Rにコピー
 	ind_cpy(P, R, POP); //全集団Rから初回アーカイブ

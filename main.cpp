@@ -26,6 +26,8 @@ int main(void) {
 	//char pwsp[100];
 	//make_SVsig(pwsp);
 	//****
+
+
 	int it = 0;
 	clock_t start, end;
 	double ex_time;
@@ -39,6 +41,8 @@ int main(void) {
 		start = clock();
 		setting(); //問題設定の読み込み
 		random_seed(); //乱数初期値
+
+
 		if (ALGO == 0) {
 			basic_GA();
 		}
@@ -185,7 +189,7 @@ void initialize3(individual* A, int arr) {
 	int temp;
 	double sum;
 
-	int arrnum = sizeof discrete / sizeof(int);
+	int arrnum = sizeof designed / sizeof(int);
 	for (i = 0; i < arr; i++) {
 		///Zの初期化
 		//Zを連続値で扱う場合
@@ -194,11 +198,20 @@ void initialize3(individual* A, int arr) {
 				A[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
 			}
 		}
-		//Zを離散値で扱う場合
+		//離散値
 		else if (TYPE == 1) {
+			for (j = 0; j < DIM[0]; j++) {
+				A[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
+				if (TYPE == 1) {
+					A[i].X[j][0] = round(A[i].X[j][0]); //四捨五入
+				}
+			}
+		}
+		//指定された値
+		else if (TYPE == 2) {
 			for (j = 0; j < SEGMENT; j++) {
 				temp = rand() % arrnum;
-				A[i].X[j][0] = discrete[temp];
+				A[i].X[j][0] = designed[temp];
 			}
 			for (j; j < SEGMENT + 2; j++) {
 				A[i].X[j][0] = (double)(rand() % 99 + 1);
@@ -209,7 +222,14 @@ void initialize3(individual* A, int arr) {
 			exit(1);
 		}
 
+
+
 		///Tdの初期化
+		int sub_seg0 = SECTION_LENGTH[0] / 0.5;
+		int sub_seg1 = SECTION_LENGTH[1] / 0.5;
+		int sub_seg2 = SECTION_LENGTH[2] / 0.5;
+	
+		
 		for (j = 0; j < DIM[1]; j++) {
 			A[i].X[j][1] = lower_bound[j][1] + (double)rand() / RAND_MAX * (upper_bound[j][1] - lower_bound[j][1]);
 		}
@@ -221,6 +241,9 @@ void initialize3(individual* A, int arr) {
 		for (j = 0; j < L_NODE[0] - 1; j++) {
 			A[i].X[j][1] = A[i].X[j][1] / sum * SECTION_LENGTH[0];
 		}
+		//int arr[5];
+		//divide_num(sub_seg0, arr, 5);
+
 		//セクション2
 		sum = 0;
 		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
@@ -505,6 +528,26 @@ void init_ind(individual* ind, int arr) {
 	}
 	if (MODE == 1) {
 		initialize3(ind, arr);
+	}
+}
+
+void small_segment_handring(double* seg) {
+	int check;
+	int temps;
+	for (int m = 0; m < QTY_SECTION; m++) {
+		do {
+			check = 0;
+			for (int k = 0; k < (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]); k++) {
+				if (seg[k + CNT_SEGMENT[m]] < 2.8) {
+					seg[k + CNT_SEGMENT[m]] = seg[k + CNT_SEGMENT[m]] + 2.8;
+					temps = rand() % (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]);
+					seg[temps + CNT_SEGMENT[m]] = seg[temps + CNT_SEGMENT[m]] - 2.8;
+				}
+				else {
+					check++;
+				}
+			}
+		} while (check != (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]));
 	}
 }
 

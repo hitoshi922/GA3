@@ -25,17 +25,23 @@ void setting() {
 //*******実験用設定**********
 void experiment_setting() {
 	int i, j;
-	SEGMENT = 15;
+	SEGMENT = 10;
 	DIM[0] = SEGMENT + 2; //セグメント数+抵抗数
 	DIM[1] = SEGMENT;
 	OBJ = 2;
 	CHROM = 2;
-	L_NODE[0] = 6;
-	L_NODE[1] = 11;
-	QTY_SECTION = 2;
+
+	QTY_SECTION = 3;
+	CNT_SEGMENT[0] = 0;
+	CNT_SEGMENT[1] = 5;
+	CNT_SEGMENT[2] = 9;
+	CNT_SEGMENT[3] = SEGMENT;
 	SECTION_LENGTH[0] = 280;
 	SECTION_LENGTH[1] = 224;
 	SECTION_LENGTH[2] = 56;
+	L_NODE[0] = CNT_SEGMENT[1] + 1;
+	L_NODE[1] = CNT_SEGMENT[2] + 1;
+	
 	for (i = 0; i < DIM[0]; i++) {
 		upper_bound[i][0] = 120;
 		lower_bound[i][0] = 30;
@@ -44,6 +50,7 @@ void experiment_setting() {
 		upper_bound[i][1] = 100;
 		lower_bound[i][1] = 1;
 	}
+	
 	MIN_OR_MAX[0] = 0;
 }
 

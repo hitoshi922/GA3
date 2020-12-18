@@ -22,6 +22,17 @@ void non_restored_extract(int max, int* x, int arr) {
 	}
 }
 
+void non_restored_extract2(int max, int min, int* x, int arr) {
+	int i, j;
+	for (i = 0; i < arr; i++) {
+		x[i] = uniform_random2(max, min);
+		for (j = 0; j < i; j++) {
+			while (x[i] == x[j]) {
+				x[i] = uniform_random2(max, min);
+			}
+		}
+	}
+}
 
 //トーナメント選択　//評価がプラスだとおかしくなる
 void tornament_select(individual* B, int max, int* x, int arr) {
@@ -121,9 +132,16 @@ void crowding_tornament_select(individual* B, int max, int* x, int arr) {
 
 
 //一様ランダムセレクト
-int uniform_random(int a) {
+int uniform_random(int max) {
 	int num;
-	num = rand() % a;
+	num = rand() % max;
+	return num;
+}
+
+//そのうち上と統合する
+int uniform_random2(int max, int min) {
+	int num;
+	num = min + rand() % (max - min);
 	return num;
 }
 
@@ -303,4 +321,35 @@ void individual_info(individual ind) {
 	}
 	printf("\n\n");
 
+}
+
+void divide_num(int qty, int* divided, int arr) {
+	int cnt = 0;
+	int i;
+	int t[DIM_SEC];
+	t[arr] = qty;
+	non_restored_extract2(qty - 1, 1, t, arr);
+	t[0] = 0;
+	t[arr] = qty;
+
+	ascending_array_sort(t, arr + 1);
+	divided[0] = t[1] - t[0];
+	for (i = 1; i < arr; i++) {
+		divided[i] = t[i+1] - t[i];
+	}
+	
+}
+
+void ascending_array_sort(int* array, int arr) {
+	int temp;
+	int i, j;
+	for (i = 0; i < arr; i++) {
+		for (j = i + 1; j < arr; j++) {
+			if (array[i] > array[j]) {
+				temp = array[j];
+				array[j] = array[i];
+				array[i] = temp;
+			}
+		}
+	}
 }

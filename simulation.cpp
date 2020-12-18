@@ -340,14 +340,14 @@ void make_netlist5(individual* A, int arr) {
 			//電源・負荷等
 			fprintf(fp, "*TML%03d\n"
 				"RT2 N%03d 0 %.0f\n"
-				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n)\n"
+				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n) Rser=20\n"
 				"C1 N%03d 0 10p\n"
 				"C2 N%03d 0 10p\n"
 				"R1 Vin1 N001 %.0f\n"
 				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
 			//伝送線路
 			for (j = 0; j < DIM[1]; j++) {
-				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.1fp Z0 = %.2f\n",
+				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.2fp Z0 = %.2f\n",
 					j + 1, j + 1, j + 2, L[j], W[j]);//N000 はGNDのためノード名に使わない
 			}
 
