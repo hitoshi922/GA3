@@ -21,5 +21,6 @@ int SEGMENT;
 int L_NODE[DIM_SEC];
 int QTY_SECTION;
 double SECTION_LENGTH[DIM_SEC];
+int CNT_SEGMENT[DIM_SEC];
 
 double len_lim;

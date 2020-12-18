@@ -12,20 +12,21 @@
 
 
 //離散・連続を変更したら、交叉・突然変異を変更
-#define TYPE 0 //0:contenious  1:discrete
-#define MODE 1 //0:benchmark  1:experiment
+#define TYPE 1 //0:contenious  1:discrete  2:designed
+#define SUB_TYPE 1 //0:contenious 1:discrete
+#define MODE 1 //0:benchmark  1:experiment 
 
 constexpr int TRIAL = 1;
 
 #define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 10;
+constexpr int POP = 5;
 constexpr int GEN = 10;
 constexpr double CROSSOVER_RATE = 1; // *100[%];
-constexpr double MUTATION_RATE[CHROM_SEC] = { 0.1,1 }; // *100[%]
+constexpr double MUTATION_RATE[CHROM_SEC] = { 0.1,0.1 }; // *100[%]
 
-constexpr int discrete[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
+constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
 #define EVALUATION 1
 /* EVALUATION FUNCTION
@@ -108,6 +109,7 @@ extern int SEGMENT;
 extern int L_NODE[DIM_SEC]; //負荷容量を接続するノード
 extern int QTY_SECTION;
 extern double SECTION_LENGTH[DIM_SEC]; //負荷容量までの距離
+extern int CNT_SEGMENT[DIM_SEC]; 
 
 //algorithms
 void basic_GA();
@@ -127,7 +129,7 @@ void initialize2();
 void initialize(individual* A, int arr);
 void record(individual* ind, int arr, int cnt);
 void init_ind(individual* ind, int arr);
-
+void small_segment_handring(double* seg);
 
 //mutation
 void mutation(individual* B, int arr);

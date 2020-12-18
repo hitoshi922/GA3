@@ -30,7 +30,14 @@ void mutation(individual* B, int arr) {
 		}
 	}
 
-
+	//離散値処理
+	if (TYPE == 1) {
+		for (int j = 0; j < arr; j++) {
+			for (int k = 0; k < DIM[0]; k++) {
+				B[j].X[k][0] = round(B[j].X[k][0]);
+			}
+		}
+	}
 
 }
 
@@ -95,14 +102,14 @@ void STL_mutation1(individual* B,int arr, int chrome) {
 	int sel;
 	int temp;
 	int arrnum;
-	arrnum = sizeof discrete / sizeof(int);
+	arrnum = sizeof designed / sizeof(int);
 	for (i = 0; i < arr; i++) {
 		for (j = 0; j < 9; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
 				do {
 					sel = rand() % arrnum;
-					temp = discrete[sel];
+					temp = designed[sel];
 				} while (temp == B[i].X[j][chrome]);
 				B[i].X[j][chrome] = temp;
 
@@ -127,19 +134,20 @@ void STL_mutation2(individual* B,int arr, int chrome) {
 	double n;
 	double temp;
 	for (i = 0; i < arr; i++) {
-		for (j = 0; j < L_NODE[0] - 1; j++) {
+		for (j = 0; j < CNT_SEGMENT[1] - CNT_SEGMENT[0]; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
-				temp = 1.0 + (double)rand() / RAND_MAX * (B[i].X[j][chrome] - 1.0);
+				temp = 1.0 + (double)rand() / RAND_MAX * (B[i].X[j + CNT_SEGMENT[0]][chrome] - 1.0);
 				delta_L = B[i].X[j][chrome] - temp;
-				delta_ot = delta_L / (L_NODE[0] - 2);
-				for (k = 0; k < L_NODE[0] - 1; k++) {
-					B[i].X[k][chrome] = B[i].X[k][chrome] + delta_ot;
+				delta_ot = delta_L / ((double)CNT_SEGMENT[1] - (double)CNT_SEGMENT[0] - 1);
+				for (k = 0; k < CNT_SEGMENT[1] - CNT_SEGMENT[0]; k++) {
+					B[i].X[k + CNT_SEGMENT[0]][chrome] = B[i].X[k + CNT_SEGMENT[0]][chrome] + delta_ot;
 				}
-				B[i].X[j][chrome] = B[i].X[j][chrome] - delta_ot - delta_L;
+				B[i].X[j + CNT_SEGMENT[0]][chrome] = B[i].X[j + CNT_SEGMENT[0]][chrome] - delta_ot - delta_L;
 				B[i].eval_tag = 0; //未評価扱い
 			}
 		}
+
 		for (j; j < L_NODE[1] - 1; j++) {
 			n = (double)rand() / RAND_MAX;
 			if (n < MUTATION_RATE[chrome]) {
@@ -177,6 +185,15 @@ void STL_mutation2(individual* B,int arr, int chrome) {
 		}
 
 
+		//念のため長さが小さくなりすぎてないかチェック
+		double tempX[DIM_SEC];
+		for (int n = 0; n < DIM[1]; n++) {
+			tempX[n] = B[i].X[n][1];
+		}
+		small_segment_handring(tempX);
+		for (int n = 0; n < DIM[1]; n++) {
+			B[i].X[n][1] = tempX[n];
+		}
 	}
 
 

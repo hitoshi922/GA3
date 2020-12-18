@@ -1,5 +1,6 @@
 #include"Header.h"
 
+
 void parent_selection(individual* B, int* sel, int np);
 void parent_selection2(individual* B, int* sel, int np);
 
@@ -60,7 +61,17 @@ void crossover(individual* B) {
 	cnt = recycle_select(B, cnt);
 
 	//crear_info()
+
 	generation_change(B, cnt);
+	//離散値のみ
+	if (TYPE == 1) {
+		for (int j = 0; j < cnt; j++) {
+			for (int k = 0; k < DIM[0]; k++) {
+				B[j].X[k][0] = round(B[j].X[k][0]);
+			}
+		}
+	}
+
 }
 
 void MGG_crossover(individual* B, int* parent_select, int qty_family) {
@@ -466,52 +477,10 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 		child2[i] = a2[i] - a2[i - 1];
 	}
 
-	//1p問題への仮対処
-	//セクション1
-	//for (i = 0; i < L_NODE[0] - 1; i++) {
-	//	if (child1[i] < 1) {
-	//		child1[i] = child1[i] + 1.5;
-	//		for (j = 0; j < L_NODE[0] - 1; j++) {
-	//			child1[j] = child1[j] - 0.5;
-	//		}
-	//	}
-	//	if (child2[i] < 1) {
-	//		child2[i] = child2[i] + 1.5;
-	//		for (j = 0; j < L_NODE[0] - 1; j++) {
-	//			child2[j] = child2[j] - 0.5;
-	//		}
-	//	}
-	//}
-	////セクション2
-	//for (i; i < L_NODE[1] - 1; i++) {
-	//	if (child1[i] < 1) {
-	//		child1[i] = child1[i] + 1.5;
-	//		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
-	//			child1[j] = child1[j] - 0.5;
-	//		}
-	//	}
-	//	if (child2[i] < 1) {
-	//		child2[i] = child2[i] + 1.5;
-	//		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
-	//			child2[j] = child2[j] - 0.5;
-	//		}
-	//	}
-	//}
-	////セクション3
-	//for (i ; i < SEGMENT; i++) {
-	//	if (child1[i] < 1) {
-	//		child1[i] = child1[i] + 1.5;
-	//		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
-	//			child1[j] = child1[j] - 0.5;
-	//		}
-	//	}
-	//	if (child2[i] < 1) {
-	//		child2[i] = child2[i] + 1.5;
-	//		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
-	//			child2[j] = child2[j] - 0.5;
-	//		}
-	//	}
-	//}
+
+	//セグメント小さくなりすぎ問題への仮対処
+	small_segment_handring(child1);
+	small_segment_handring(child2);
 
 	////extra operation for timestep problem
 	//for (i = 0; i < SEGMENT; i++) {
@@ -525,33 +494,32 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 
 	//正しいか表示用
 	
-		double sum0 = 0;
-		double sum1 = 0;
-		double sum2 = 0;
-		for (i = 0; i < L_NODE[0] - 1; i++) {
-			sum0 += child1[i];
-		}
-		for (i; i < L_NODE[1] - 1; i++) {
-			sum1 += child1[i];
-		}
-		for (i; i < SEGMENT; i++) {
-			sum2 += child1[i];
-		}
-		printf("mutation\n%f\n%f\n%f\n", sum0, sum1, sum2);
-		sum0 = 0;
-		sum1 = 0;
-		sum2 = 0;
-		for (i = 0; i < L_NODE[0] - 1; i++) {
-			sum0 += child2[i];
-		}
-		for (i; i < L_NODE[1] - 1; i++) {
-			sum1 += child2[i];
-		}
-		for (i; i < SEGMENT; i++) {
-			sum2 += child2[i];
-		}
-		printf("mutation\n%f\n%f\n%f\n", sum0, sum1, sum2);
-
+		//double sum0 = 0;
+		//double sum1 = 0;
+		//double sum2 = 0;
+		//for (i = 0; i < L_NODE[0] - 1; i++) {
+		//	sum0 += child1[i];
+		//}
+		//for (i; i < L_NODE[1] - 1; i++) {
+		//	sum1 += child1[i];
+		//}
+		//for (i; i < SEGMENT; i++) {
+		//	sum2 += child1[i];
+		//}
+		//printf("mutation\n%f\n%f\n%f\n", sum0, sum1, sum2);
+		//sum0 = 0;
+		//sum1 = 0;
+		//sum2 = 0;
+		//for (i = 0; i < L_NODE[0] - 1; i++) {
+		//	sum0 += child2[i];
+		//}
+		//for (i; i < L_NODE[1] - 1; i++) {
+		//	sum1 += child2[i];
+		//}
+		//for (i; i < SEGMENT; i++) {
+		//	sum2 += child2[i];
+		//}
+		//printf("mutation\n%f\n%f\n%f\n", sum0, sum1, sum2);
 
 }
 

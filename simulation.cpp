@@ -347,7 +347,7 @@ void make_netlist5(individual* A, int arr) {
 				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
 			//“`‘—ü˜H
 			for (j = 0; j < DIM[1]; j++) {
-				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.1fp Z0 = %.2f\n",
+				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.2fp Z0 = %.2f\n",
 					j + 1, j + 1, j + 2, L[j], W[j]);//N000 ‚ÍGND‚Ì‚½‚ßƒm[ƒh–¼‚Ég‚í‚È‚¢
 			}
 

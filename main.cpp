@@ -189,35 +189,38 @@ void initialize3(individual* A, int arr) {
 	int temp;
 	double sum;
 
-	int arrnum = sizeof discrete / sizeof(int);
+	int arrnum = sizeof designed / sizeof(int);
 	for (i = 0; i < arr; i++) {
 		///Zの初期化
 		//Zを連続値で扱う場合
-		//if (TYPE == 0) {
-		for (j = 0; j < DIM[0]; j++) {
-			A[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
-			/////
-			if (TYPE == 1) {
-				A[i].X[j][0] = round(A[i].X[j][0]);
+		if (TYPE == 0) {
+			for (j = 0; j < DIM[0]; j++) {
+				A[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
 			}
-			//////
 		}
-
-		//}
-		//Zを離散値で扱う場合
-		//else if (TYPE == 1) {
-		//	for (j = 0; j < SEGMENT; j++) {
-		//		temp = rand() % arrnum;
-		//		A[i].X[j][0] = discrete[temp];
-		//	}
-		//	for (j; j < SEGMENT + 2; j++) {
-		//		A[i].X[j][0] = (double)(rand() % 99 + 1);
-		//	}
-		//}
-	/*	else {
+		//離散値
+		else if (TYPE == 1) {
+			for (j = 0; j < DIM[0]; j++) {
+				A[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
+				if (TYPE == 1) {
+					A[i].X[j][0] = round(A[i].X[j][0]); //四捨五入
+				}
+			}
+		}
+		//指定された値
+		else if (TYPE == 2) {
+			for (j = 0; j < SEGMENT; j++) {
+				temp = rand() % arrnum;
+				A[i].X[j][0] = designed[temp];
+			}
+			for (j; j < SEGMENT + 2; j++) {
+				A[i].X[j][0] = (double)(rand() % 99 + 1);
+			}
+		}
+		else {
 			printf("TYPE value is invalid.\n");
 			exit(1);
-		}*/
+		}
 
 
 
@@ -442,6 +445,26 @@ void init_ind(individual* ind, int arr) {
 	}
 	if (MODE == 1) {
 		initialize3(ind, arr);
+	}
+}
+
+void small_segment_handring(double* seg) {
+	int check;
+	int temps;
+	for (int m = 0; m < QTY_SECTION; m++) {
+		do {
+			check = 0;
+			for (int k = 0; k < (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]); k++) {
+				if (seg[k + CNT_SEGMENT[m]] < 2.8) {
+					seg[k + CNT_SEGMENT[m]] = seg[k + CNT_SEGMENT[m]] + 2.8;
+					temps = rand() % (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]);
+					seg[temps + CNT_SEGMENT[m]] = seg[temps + CNT_SEGMENT[m]] - 2.8;
+				}
+				else {
+					check++;
+				}
+			}
+		} while (check != (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]));
 	}
 }
 
