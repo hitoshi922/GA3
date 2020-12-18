@@ -340,7 +340,7 @@ void make_netlist5(individual* A, int arr) {
 			//“dŒ¹E•‰‰×“™
 			fprintf(fp, "*TML%03d\n"
 				"RT2 N%03d 0 %.0f\n"
-				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n)\n"
+				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n) Rser=20\n"
 				"C1 N%03d 0 10p\n"
 				"C2 N%03d 0 10p\n"
 				"R1 Vin1 N001 %.0f\n"

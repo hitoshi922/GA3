@@ -20,10 +20,10 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 20;
-constexpr int GEN = 300;
+constexpr int POP = 10;
+constexpr int GEN = 10;
 constexpr double CROSSOVER_RATE = 1; // *100[%];
-constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
+constexpr double MUTATION_RATE[CHROM_SEC] = { 0.1,1 }; // *100[%]
 
 constexpr int discrete[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
@@ -135,10 +135,12 @@ void mutation(individual* B, int arr);
 //process
 void random_seed();
 void non_restored_extract(int max, int* x, int arr);
+void non_restored_extract(int max, int min, int* x, int arr);
 void tornament_select(individual* B, int max, int* x, int arr);
 void roulette_select(individual* B, int limit, int* num, int arr);
 void crowding_tornament_select(individual* B, int max, int* x, int arr);
 int uniform_random(int a);
+int uniform_random2(int max, int min);
 int find_header(FILE* fp, char* keyword);
 int find_header2(FILE* fp, char* keyword);
 void sort(individual* ind, int arr);
@@ -147,6 +149,10 @@ void clear_array(double* x, int arr);
 void clear_POP(individual* A, int arr);
 void ind_cpy(individual* A, individual* B, int arr);
 void individual_info(individual ind);
+void divide_num(int qty, int* divided, int arr);
+void ascending_array_sort(int* array, int arr);
+
+
 
 
 //setting

@@ -523,10 +523,34 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 	//	}
 	//}
 
-	printf("crossover\n");
-	printf("%f\n", child1[0] + child1[1] + child1[2] + child1[3] + child1[4]);
-	printf("%f\n", child1[5] + child1[6] + child1[7] + child1[8] + child1[9]);
-	printf("%f\n", child1[10] + child1[11] + child1[12] + child1[13] + child1[14]);
+	//ê≥ÇµÇ¢Ç©ï\é¶óp
+	
+		double sum0 = 0;
+		double sum1 = 0;
+		double sum2 = 0;
+		for (i = 0; i < L_NODE[0] - 1; i++) {
+			sum0 += child1[i];
+		}
+		for (i; i < L_NODE[1] - 1; i++) {
+			sum1 += child1[i];
+		}
+		for (i; i < SEGMENT; i++) {
+			sum2 += child1[i];
+		}
+		printf("mutation\n%f\n%f\n%f\n", sum0, sum1, sum2);
+		sum0 = 0;
+		sum1 = 0;
+		sum2 = 0;
+		for (i = 0; i < L_NODE[0] - 1; i++) {
+			sum0 += child2[i];
+		}
+		for (i; i < L_NODE[1] - 1; i++) {
+			sum1 += child2[i];
+		}
+		for (i; i < SEGMENT; i++) {
+			sum2 += child2[i];
+		}
+		printf("mutation\n%f\n%f\n%f\n", sum0, sum1, sum2);
 
 
 }

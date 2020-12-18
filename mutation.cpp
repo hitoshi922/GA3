@@ -30,13 +30,7 @@ void mutation(individual* B, int arr) {
 		}
 	}
 
-	for (int j = 0; j < arr; j++) {
-		printf("mutation\n");
-		printf("%f\n", B[j].X[0][1] + B[j].X[1][1]+ B[j].X[2][1]+ B[j].X[3][1]+ B[j].X[4][1]);
-		printf("%f\n", B[j].X[5][1] + B[j].X[6][1] + B[j].X[7][1] + B[j].X[8][1] + B[j].X[9][1]);
-		printf("%f\n", B[j].X[10][1] + B[j].X[11][1] + B[j].X[12][1] + B[j].X[13][1] + B[j].X[14][1]);
 
-	}
 
 }
 
@@ -165,7 +159,15 @@ void STL_mutation2(individual* B,int arr, int chrome) {
 			if (n < MUTATION_RATE[chrome]) {
 				temp = 1.0 + (double)rand() / RAND_MAX * (B[i].X[j][chrome] - 1.0);
 				delta_L = B[i].X[j][chrome] - temp;
-				delta_ot = delta_L / (SEGMENT - L_NODE[1]);
+				//—ëœŽZ‰ñ”ð
+				if (SEGMENT != L_NODE[1]) {
+					delta_ot = delta_L / (SEGMENT - L_NODE[1]);
+				}
+				else {
+					delta_ot = 0;
+					delta_L = 0;
+				}
+
 				for (k = L_NODE[1] - 1; k < SEGMENT; k++) {
 					B[i].X[k][chrome] = B[i].X[k][chrome] + delta_ot;
 				}
