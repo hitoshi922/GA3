@@ -271,7 +271,9 @@ void culc_fitness(double* f, double* fitness) {
 }
 
 void culc_improvant_rate(double* f, double* fitness) {
-	fitness[0] = 1.05784e-8  / f[0];
+	//fitness[0] = 1.05784e-8  / f[0];
+	fitness[0] = 3.53819e-8  / f[0];
+
 	fitness[1] = 1 / f[1];
 }
 

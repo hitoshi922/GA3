@@ -88,7 +88,7 @@ void MGG_crossover(individual* B, int* parent_select, int qty_family) {
 	sel[0] = parent_select[0];
 	sel[1] = parent_select[1];
 
-	num_of_children = qty_family;
+	num_of_children = qty_family - 2;
 
 	//親個体のファミリーへの移し替え
 	//nextP[POP]<number_of_childrenだとバグる、そのための強制停止
@@ -97,9 +97,7 @@ void MGG_crossover(individual* B, int* parent_select, int qty_family) {
 		exit(1);
 	}
 
-	nextP[0] = B[sel[0]];
-	nextP[1] = B[sel[1]];
-	cnt = cnt + 2;
+
 	//子個体の生成
 	do {
 		for (i = 0; i < CHROM; i++) {
@@ -110,6 +108,9 @@ void MGG_crossover(individual* B, int* parent_select, int qty_family) {
 		cnt = cnt + inc;
 	} while (cnt < num_of_children);
 
+	nextP[cnt] = B[sel[0]];
+	nextP[cnt + 1] = B[sel[1]];
+	
 	//mutation
 	mutation(nextP, num_of_children);
 

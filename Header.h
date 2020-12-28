@@ -12,7 +12,7 @@
 
 
 //離散・連続を変更したら、交叉・突然変異を変更
-#define TYPE 1 //0:contenious  1:discrete  2:designed
+#define TYPE 0 //0:contenious  1:discrete  2:designed
 #define SUB_TYPE 1 //0:contenious 1:discrete
 #define MODE 1 //0:benchmark  1:experiment 
 
@@ -21,8 +21,8 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 5;
-constexpr int GEN = 10;
+constexpr int POP = 100;
+constexpr int GEN = 200;
 constexpr double CROSSOVER_RATE = 1; // *100[%];
 constexpr double MUTATION_RATE[CHROM_SEC] = { 0.1,0.1 }; // *100[%]
 

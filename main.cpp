@@ -445,22 +445,29 @@ void output_result(double ex_time) {
 void initialize_read(individual* ind,int arr){
 	FILE* fp1;
 	errno_t error;
+	int qty_ind = 4;
 	int i;
 	double y;
-	error = fopen_s(&fp1, "D:/HITOSHI/Documents/final(p)30(g)300.csv", "r");
+
+	if (qty_ind  > POP) {
+		printf("error check initialize_read\n");
+		exit(1);
+	}
+
+	error = fopen_s(&fp1, "D:/HITOSHI/Documents/final(p)100(g)100.csv", "r");
 	if (error != 0) {
 		exit(1);
 	}
 	
-	for (i = 0; i < 30; i++) {
-		fscanf_s(fp1, "%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &ind[i].X[0][0], &ind[i].X[1][0], &ind[i].X[2][0], &ind[i].X[3][0], &ind[i].X[4][0], &ind[i].X[5][0], &ind[i].X[6][0], &ind[i].X[7][0], &ind[i].X[8][0], &ind[i].X[9][0], &ind[i].X[10][0], &ind[i].X[11][0], &ind[i].X[12][0], &ind[i].X[13][0], &ind[i].X[14][0], &ind[i].X[15][0], &ind[i].X[16][0], &ind[i].X[0][1], &ind[i].X[1][1], &ind[i].X[2][1], &ind[i].X[3][1], &ind[i].X[4][1], &ind[i].X[5][1], &ind[i].X[6][1], &ind[i].X[7][1], &ind[i].X[8][1], &ind[i].X[9][1], &ind[i].X[10][1], &ind[i].X[11][1], &ind[i].X[12][1], &ind[i].X[13][1], &ind[i].X[14][1]);
+	for (i = 0; i < qty_ind; i++) {
+		fscanf_s(fp1, "%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &ind[i].X[0][0], &ind[i].X[1][0], &ind[i].X[2][0], &ind[i].X[3][0], &ind[i].X[4][0], &ind[i].X[5][0], &ind[i].X[6][0], &ind[i].X[7][0], &ind[i].X[8][0], &ind[i].X[9][0], &ind[i].X[10][0], &ind[i].X[11][0], &ind[i].X[0][1], &ind[i].X[1][1], &ind[i].X[2][1], &ind[i].X[3][1], &ind[i].X[4][1], &ind[i].X[5][1], &ind[i].X[6][1], &ind[i].X[7][1], &ind[i].X[8][1], &ind[i].X[9][1]);
 	}
 	int j;
 	int temp;
 	double sum;
 
-	int arrnum = sizeof discrete / sizeof(int);
-	for (i = 30; i < arr; i++) {
+	int arrnum = sizeof designed / sizeof(int);
+	for (i = qty_ind; i < arr; i++) {
 		///Z‚Ì‰Šú‰»
 		//Z‚ð˜A‘±’l‚Åˆµ‚¤ê‡
 		if (TYPE == 0) {
@@ -472,7 +479,7 @@ void initialize_read(individual* ind,int arr){
 		else if (TYPE == 1) {
 			for (j = 0; j < SEGMENT; j++) {
 				temp = rand() % arrnum;
-				ind[i].X[j][0] = discrete[temp];
+				ind[i].X[j][0] = designed[temp];
 			}
 			for (j; j < SEGMENT + 2; j++) {
 				ind[i].X[j][0] = (double)(rand() % 99 + 1);
@@ -528,6 +535,7 @@ void init_ind(individual* ind, int arr) {
 	}
 	if (MODE == 1) {
 		initialize3(ind, arr);
+		//initialize_read(ind, arr);//‰¼
 	}
 }
 

@@ -42,10 +42,14 @@ void experiment_setting() {
 	L_NODE[0] = CNT_SEGMENT[1] + 1;
 	L_NODE[1] = CNT_SEGMENT[2] + 1;
 	
-	for (i = 0; i < DIM[0]; i++) {
+	for (i = 0; i < SEGMENT; i++) {
 		upper_bound[i][0] = 120;
 		lower_bound[i][0] = 30;
 	}
+	upper_bound[SEGMENT][0] = 100;
+	lower_bound[SEGMENT][0] = 1;
+	upper_bound[SEGMENT+1][0] = 100;
+	lower_bound[SEGMENT+1][0] = 1;
 	for (i = 0; i < DIM[1]; i++) {
 		upper_bound[i][1] = 100;
 		lower_bound[i][1] = 1;
