@@ -14,6 +14,7 @@ void uniform_crossover(double* parent1, double* parent2, double* child1, double*
 
 void BLX_a(double* parent1, double* parent2, double* child1, double* child2, int chrome);
 void SBX(double* parent1, double* parent2, double* child1, double* child2, int chrome);
+void UNDX(double* parent1, double* parent2, double* parent3, double* child1, double* child2, int chrome);
 void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2, int chrome);
 void STL_2PX(double* parent1, double* parent2, double* child1, double* child2, int chrome);
 void STL_SX(double* parent1, double* parent2, double* child1, double* child2, int chrome);
@@ -238,7 +239,7 @@ void assign_parent2(individual* B, double* parent1, double* parent2, int cnt, in
 
 void BLX_a(double* parent1, double* parent2, double* child1, double* child2, int chrome) {
 
-	double alpha = 0.3;
+	double alpha = 0.366;
 
 	int i;
 	double dx[DIM_SEC];
@@ -336,6 +337,24 @@ void SBX(double* parent1, double* parent2, double* child1, double* child2, int c
 	}
 }
 
+void UNDX(double* parent1, double* parent2, double* parent3, double* child1, double* child2, int chrome) {
+	int i;
+	double p[DIM_SEC];
+	double d[DIM_SEC];
+	double D;
+	//中心点pを求める
+	for (i = 0; i < DIM[chrome]; i++) {
+		p[i] = (parent1[i] + parent2[i]) / 2;
+	}
+	//差分ベクトルdを求める
+	for (i = 0; i < DIM[chrome]; i++) {
+		d[i] = parent1[i] - parent2[i];
+	}
+	//親3から主探索直線PSLまでの距離を求める
+
+
+}
+
 
 void single_point_crossover(double* parent1, double* parent2, double* child1, double* child2, int chrome) {
 
@@ -405,7 +424,7 @@ void STL_BLX_a(double* parent1, double* parent2, double* child1, double* child2,
 	const double length2 = SECTION_LENGTH[1];
 	const double length3 = SECTION_LENGTH[2];
 	
-	double alpha = 0.3;
+	double alpha = 0.366;
 
 	int i, j;
 	double dx[DIM_SEC];

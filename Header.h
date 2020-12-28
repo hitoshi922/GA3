@@ -137,7 +137,7 @@ void mutation(individual* B, int arr);
 //process
 void random_seed();
 void non_restored_extract(int max, int* x, int arr);
-void non_restored_extract(int max, int min, int* x, int arr);
+void non_restored_extract2(int max, int min, int* x, int arr);
 void tornament_select(individual* B, int max, int* x, int arr);
 void roulette_select(individual* B, int limit, int* num, int arr);
 void crowding_tornament_select(individual* B, int max, int* x, int arr);
@@ -153,6 +153,12 @@ void ind_cpy(individual* A, individual* B, int arr);
 void individual_info(individual ind);
 void divide_num(int qty, int* divided, int arr);
 void ascending_array_sort(int* array, int arr);
+void gram_schmidt(double* x, double* e, int arr_x, int arr_v);
+double inner_product(double* x, double* y, int arr);
+void vector_plus(double* x1, double* x2, int arr, double* y);
+void vector_minus(double* x1, double* x2, int arr, double* y);
+
+
 
 
 
