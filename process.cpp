@@ -353,3 +353,84 @@ void ascending_array_sort(int* array, int arr) {
 		}
 	}
 }
+
+
+//グラム-シュミッド直交化
+void gram_schmidt(double* x, double* e, int arr_x, int arr_v) {
+	int i, j, k;
+	
+	double X[DIM_SEC][DIM_SEC]; //[ベクトル番号],[次数]
+	double Y[DIM_SEC][DIM_SEC];
+	double E[DIM_SEC][DIM_SEC];
+	if (arr_x < arr_v) {
+		printf("gram-schmidt : DIM_SEC > arr\n");
+		exit(1);
+	}
+	//2次元配列に入れ替え
+	for (i = 0; i < arr_v; i++) {
+		for (j = 0; j < arr_x; j++) {
+			X[i][j] = x[j + i * arr_x];
+		}
+	}
+	
+	double z;
+	double l = 0;
+	double sigma[DIM_SEC] = { 0 };
+	//直行化
+	for (i = 0; i < arr_v; i++) {
+		//前のベクトル成分を除去
+		for (k = 0; k < arr_x; k++) {
+			sigma[k] = 0;
+		}
+		for (j = 0; j < i; j++) {
+			z = inner_product(&X[i][0], &E[j][0], arr_x);
+			for (k = 0; k < arr_x; k++) {
+				sigma[k] = sigma[k] + z * E[j][k];
+			}
+		}
+		for (k = 0; k < arr_x; k++) {
+			Y[i][k] = X[i][k] - sigma[k];
+		}
+		//Yを正規化
+		l = 0;
+		for (k = 0; k < arr_x; k++) {
+			l += Y[i][k] * Y[i][k];
+		}
+		l = sqrt(l);
+		for (k = 0; k < arr_x; k++) {
+			E[i][k] = Y[i][k] / l;
+		}
+	}
+
+	//Eをeに移し替え
+	for (i = 0; i < arr_v; i++) {
+		for (j = 0; j < arr_x; j++) {
+			e[i * arr_x + j] = E[i][j];
+		}
+	}
+
+
+}
+
+double inner_product(double* x, double* y, int arr) {
+	double z = 0;
+	for (int i = 0; i < arr; i++) {
+		z += x[i] * y[i];
+	}
+	return z;
+}
+
+//(ベクトルx1)+(ベクトルx2)
+void vector_plus(double* x1, double* x2, int arr, double* y) {
+	for (int i = 0; i < arr; i++) {
+		y[i] = x1[i] + x2[i];
+	}
+}
+
+
+//(ベクトルx1)-(ベクトルx2)
+void vector_minus(double* x1, double* x2, int arr, double* y) {
+	for (int i = 0; i < arr; i++) {
+		y[i] = x1[i] - x2[i];
+	}
+}

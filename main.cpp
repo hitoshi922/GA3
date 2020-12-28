@@ -22,11 +22,6 @@ void make_SVsig(char* pulse) {
 
 
 int main(void) {
-	//****
-	//char pwsp[100];
-	//make_SVsig(pwsp);
-	//****
-
 
 	int it = 0;
 	clock_t start, end;
