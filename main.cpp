@@ -434,6 +434,89 @@ void output_result(double ex_time) {
 
 }
 
+
+
+//kari
+void initialize_read(individual* ind,int arr){
+	FILE* fp1;
+	errno_t error;
+	int i;
+	double y;
+	error = fopen_s(&fp1, "D:/HITOSHI/Documents/final(p)30(g)300.csv", "r");
+	if (error != 0) {
+		exit(1);
+	}
+	
+	for (i = 0; i < 30; i++) {
+		fscanf_s(fp1, "%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf\n", &ind[i].X[0][0], &ind[i].X[1][0], &ind[i].X[2][0], &ind[i].X[3][0], &ind[i].X[4][0], &ind[i].X[5][0], &ind[i].X[6][0], &ind[i].X[7][0], &ind[i].X[8][0], &ind[i].X[9][0], &ind[i].X[10][0], &ind[i].X[11][0], &ind[i].X[12][0], &ind[i].X[13][0], &ind[i].X[14][0], &ind[i].X[15][0], &ind[i].X[16][0], &ind[i].X[0][1], &ind[i].X[1][1], &ind[i].X[2][1], &ind[i].X[3][1], &ind[i].X[4][1], &ind[i].X[5][1], &ind[i].X[6][1], &ind[i].X[7][1], &ind[i].X[8][1], &ind[i].X[9][1], &ind[i].X[10][1], &ind[i].X[11][1], &ind[i].X[12][1], &ind[i].X[13][1], &ind[i].X[14][1]);
+	}
+	int j;
+	int temp;
+	double sum;
+
+	int arrnum = sizeof discrete / sizeof(int);
+	for (i = 30; i < arr; i++) {
+		///Zの初期化
+		//Zを連続値で扱う場合
+		if (TYPE == 0) {
+			for (j = 0; j < DIM[0]; j++) {
+				ind[i].X[j][0] = lower_bound[j][0] + (double)rand() / RAND_MAX * (upper_bound[j][0] - lower_bound[j][0]);
+			}
+		}
+		//Zを離散値で扱う場合
+		else if (TYPE == 1) {
+			for (j = 0; j < SEGMENT; j++) {
+				temp = rand() % arrnum;
+				ind[i].X[j][0] = discrete[temp];
+			}
+			for (j; j < SEGMENT + 2; j++) {
+				ind[i].X[j][0] = (double)(rand() % 99 + 1);
+			}
+		}
+		else {
+			printf("TYPE value is invalid.\n");
+			exit(1);
+		}
+
+		///Tdの初期化
+		for (j = 0; j < DIM[1]; j++) {
+			ind[i].X[j][1] = lower_bound[j][1] + (double)rand() / RAND_MAX * (upper_bound[j][1] - lower_bound[j][1]);
+		}
+		//セクション1
+		sum = 0;
+		for (j = 0; j < L_NODE[0] - 1; j++) {
+			sum += ind[i].X[j][1];
+		}
+		for (j = 0; j < L_NODE[0] - 1; j++) {
+			ind[i].X[j][1] = ind[i].X[j][1] / sum * SECTION_LENGTH[0];
+		}
+		//セクション2
+		sum = 0;
+		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+			sum += ind[i].X[j][1];
+		}
+		for (j = L_NODE[0] - 1; j < L_NODE[1] - 1; j++) {
+			ind[i].X[j][1] = ind[i].X[j][1] / sum * SECTION_LENGTH[1];
+		}
+		//セクション3
+		sum = 0;
+		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+			sum += ind[i].X[j][1];
+		}
+		for (j = L_NODE[1] - 1; j < SEGMENT; j++) {
+			ind[i].X[j][1] = ind[i].X[j][1] / sum * SECTION_LENGTH[2];
+		}
+
+	}
+
+	fclose(fp1);
+
+}
+
+
+
+
+
 void init_ind(individual* ind, int arr) {
 	if (MODE == 0) {
 		initialize(ind, arr);
