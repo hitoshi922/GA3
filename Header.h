@@ -7,28 +7,31 @@
 #include<math.h>
 #include<time.h>
 
+//information
+//負荷容量を20pにしています
+//SPX交叉実装中．
+
 //NSGA2を使うときは交叉率を100%にすること
-#define ALGO 10 //0:simple  1:MGG  10:NSGA2
+#define ALGO 0 //0:simple  1:MGG  10:NSGA2
+constexpr double CROSSOVER_RATE = 0.6; // *100[%];
 
 
 //離散・連続を変更したら、交叉・突然変異を変更
-#define TYPE 1 //0:contenious  1:discrete  2:designed
+#define TYPE 0 //0:contenious  1:discrete  2:designed
 #define SUB_TYPE 1 //0:contenious 1:discrete
-#define MODE 1 //0:benchmark  1:experiment 
 
 constexpr int TRIAL = 1;
 
 #define DIM_SEC 20
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 5;
-constexpr int GEN = 10;
-constexpr double CROSSOVER_RATE = 1; // *100[%];
-constexpr double MUTATION_RATE[CHROM_SEC] = { 0.1,0.1 }; // *100[%]
+constexpr int POP = 100;
+constexpr int GEN = 500;
+constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
 
 constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
-#define EVALUATION 1
+#define EVALUATION 60
 /* EVALUATION FUNCTION
 0:equation_base
 1:simulation_base
@@ -51,10 +54,10 @@ UNIFORM:0  TORNAMENT:1  ROULETTE:2
 crowding:10
 */
 
-constexpr int CROSSOVER[CHROM_SEC] = { 10,102 };
+constexpr int CROSSOVER[CHROM_SEC] = { 12,102 };
 /* CROSSOVER METHOD
 OnePX:0  TwoPX:1  UniX:2
-BLX_a:10  SBX:11
+BLX_a:10  SBX:11  SPX:12
 //L専用
 STL_2PX:100  STL_BLX_a:102
 //Z専用
@@ -157,7 +160,7 @@ void gram_schmidt(double* x, double* e, int arr_x, int arr_v);
 double inner_product(double* x, double* y, int arr);
 void vector_plus(double* x1, double* x2, int arr, double* y);
 void vector_minus(double* x1, double* x2, int arr, double* y);
-
+int check_clone(individual* ind, int arr);
 
 
 

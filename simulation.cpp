@@ -311,7 +311,7 @@ void make_netlist5(individual* A, int arr) {
 		Rd = A[i].X[j][0];
 		RT = A[i].X[j + 1][0];
 		for (j = 0; j < DIM[1]; j++) {
-			L[j] = A[i].X[j][1];
+			L[j] = 56;//A[i].X[j][1];
 		}
 
 		//1p–â‘è‰¼‘Îˆ
@@ -341,8 +341,8 @@ void make_netlist5(individual* A, int arr) {
 			fprintf(fp, "*TML%03d\n"
 				"RT2 N%03d 0 %.0f\n"
 				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n) Rser=20\n"
-				"C1 N%03d 0 10p\n"
-				"C2 N%03d 0 10p\n"
+				"C1 N%03d 0 20p\n"
+				"C2 N%03d 0 20p\n"
 				"R1 Vin1 N001 %.0f\n"
 				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
 			//“`‘—ü˜H

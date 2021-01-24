@@ -434,3 +434,31 @@ void vector_minus(double* x1, double* x2, int arr, double* y) {
 		y[i] = x1[i] - x2[i];
 	}
 }
+
+
+int check_clone(individual* ind, int arr) {
+	int cnt;
+	int ctemp = 0;
+	int check = 0;
+	for (int i = 0; i < CHROM; i++) {
+		ctemp += DIM[i];
+	}
+	for (int i = 0; i < arr; i++) {
+		for (int j = i + 1; j < arr; j++) {
+			cnt = 0;
+			for (int chrom = 0; chrom < CHROM; chrom++) {
+				for (int dim = 0; dim < DIM[chrom]; dim++) {
+					if (ind[i].X[dim][chrom] == ind[j].X[dim][chrom]) {
+						cnt++;
+					}
+				}
+			}
+
+			if (cnt == (CHROM * ctemp)) {
+				check = 1;
+			}
+		}
+	}
+	return check;
+
+}

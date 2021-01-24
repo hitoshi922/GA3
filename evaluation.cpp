@@ -37,7 +37,7 @@ void evaluation(individual* A, int arr) {
 	int i, j;
 
 	//実験モード
-	if (MODE == 1) {
+	if (EVALUATION == 1) {
 		//make_netlist_test1(A, arr);
 		//make_netlist3(A, arr);//安定版
 		make_netlist5(A, arr);
@@ -47,7 +47,7 @@ void evaluation(individual* A, int arr) {
 
 	for (i = 0; i < arr; i++) {
 		if (A[i].eval_tag == 0) {
-			if (MODE == 1) {
+			if (EVALUATION == 1) {
 				//A[i].f[0] = get_result(i);
 				A[i].f[0] = get_result2(i); //make_netlist5とセットで使うこと
 				//A[i].f[1] = getwidth(A[i].X);
@@ -55,18 +55,18 @@ void evaluation(individual* A, int arr) {
 				//A[i].f[1] = getsegments(A[i].X);
 				
 			}
-			else if (MODE == 0) {
+			else {
 				eval_junction(A[i].X, A[i].f);
 			}
 			A[i].eval_tag = 1; //評価済みに更新
 		}
 	}
-	if (MODE == 1) {
+	if (EVALUATION == 1) {
 		for (i = 0; i < POP; i++) {
 			culc_improvant_rate(A[i].f, A[i].fitness);
 		}
 	}
-	else if (MODE == 0) {
+	else{
 		for (i = 0; i < POP; i++) {
 			culc_fitness(A[i].f, A[i].fitness);
 		}
@@ -121,7 +121,7 @@ double assign_eval(double* fitness) {
 	int i;
 	double evaluation;
 	evaluation = 0;
-	if (MODE == 1) {
+	if (EVALUATION == 1) {
 		evaluation = fitness[0];
 	}
 	else {
@@ -257,7 +257,7 @@ void culc_fitness(double* f, double* fitness) {
 	{
 		if (MIN_OR_MAX[i] == 0) { //最小化なら適応度は逆数
 			//逆数
-			if (fitness != 0) {
+			if (f[i] != 0) {
 				fitness[i] = 1.0 / f[i];
 			}
 			else {

@@ -6,15 +6,11 @@ void secure_check();
 void setting() {
 	bound_preset(); //è„â∫å¿âºê›íË
 
-	if (MODE == 0) {
-		benchmark_setting();
-	}
-	else if (MODE == 1) {
+	if (EVALUATION == 1) {
 		experiment_setting();
 	}
 	else {
-		printf("setting : MODE is invalid value.\n");
-		exit(1);
+		benchmark_setting();;
 	}
 
 	bound_check();

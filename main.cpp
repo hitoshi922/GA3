@@ -363,7 +363,6 @@ void output_result(double ex_time) {
 		else {
 			fprintf(fp, "ALGO : %d\n", ALGO);
 		}
-		fprintf(fp, "MODE : %d\n", MODE);
 		fprintf(fp, "EVALUATION : %d\n", EVALUATION);
 		fprintf(fp, "POPULATION : %d\n", POP);
 		fprintf(fp, "GENERATION : %d\n", GEN);
@@ -454,7 +453,7 @@ void initialize_read(individual* ind,int arr){
 	int temp;
 	double sum;
 
-	int arrnum = sizeof discrete / sizeof(int);
+	int arrnum = sizeof designed / sizeof(int);
 	for (i = 30; i < arr; i++) {
 		///Z‚Ì‰Šú‰»
 		//Z‚ð˜A‘±’l‚Åˆµ‚¤ê‡
@@ -467,7 +466,7 @@ void initialize_read(individual* ind,int arr){
 		else if (TYPE == 1) {
 			for (j = 0; j < SEGMENT; j++) {
 				temp = rand() % arrnum;
-				ind[i].X[j][0] = discrete[temp];
+				ind[i].X[j][0] = designed[temp];
 			}
 			for (j; j < SEGMENT + 2; j++) {
 				ind[i].X[j][0] = (double)(rand() % 99 + 1);
@@ -518,11 +517,12 @@ void initialize_read(individual* ind,int arr){
 
 
 void init_ind(individual* ind, int arr) {
-	if (MODE == 0) {
-		initialize(ind, arr);
-	}
-	if (MODE == 1) {
+
+	if (EVALUATION == 1) {
 		initialize3(ind, arr);
+	}
+	else {
+		initialize(ind, arr);
 	}
 }
 
