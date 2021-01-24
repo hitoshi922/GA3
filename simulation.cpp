@@ -378,6 +378,96 @@ void make_netlist5(individual* A, int arr) {
 	}
 }
 
+void make_SSTL(individual* A, int arr) {
+
+	FILE* fp;
+	errno_t error;
+	char filename[100];
+	int i, j;
+	int OBS1 = L_NODE[0];
+	int OBS2 = L_NODE[1];
+
+	double W[DIM_SEC];
+	double L[DIM_SEC];
+	double Rd;
+	double RT;
+
+	for (i = 0; i < arr; i++) {
+		//WL等に個体のパラメータを割り当て
+		for (j = 0; j < DIM[0] - 2; j++) {
+			W[j] = A[i].X[j][0];
+		}
+		//次2つはダンピング&終端抵抗
+		Rd = A[i].X[j][0];
+		RT = A[i].X[j][0] + 20;
+
+		for (j = 0; j < DIM[1]; j++) {
+			//L[j] = A[i].X[j][1];
+			L[j] = 100; //fix
+
+		}
+
+		//1p問題仮対処
+		for (j = 0; j < SEGMENT; j++) {
+			if (L[j] < 0.5) {
+				L[j] = 0.5;
+			}
+		}
+
+
+		sprintf_s(filename, "C:/LTspice_results/TML%03d.net", i);
+		error = fopen_s(&fp, filename, "w");
+		if (error != 0) {
+			printf("生成ファイル,netを開けませんでした。");
+			exit(1);
+		}
+
+		else {
+
+			/*******ネットリスト生成***********************
+			OBS点は変数宣言時に指定（上）
+			電源・負荷等を変更したら.saveコマンドのチェック
+			伝送線路部分は基本的にいじらない
+			**********************************************/
+
+			//電源・負荷等
+			fprintf(fp, "*TML%03d\n"
+				"RT2 N%03d 0 %.0f\n"
+				"V1 Vin1 0 PULSE(0 2 1n 20p 200p 1n 2n) Rser=20\n"
+				"C1 N%03d 0 10p\n"
+				"C2 N%03d 0 10p\n"
+				"R1 Vin1 N001 %.0f\n"
+				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
+			//伝送線路
+			for (j = 0; j < DIM[1]; j++) {
+				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.2fp Z0 = %.2f\n",
+					j + 1, j + 1, j + 2, L[j], W[j]);//N000 はGNDのためノード名に使わない
+			}
+
+			//理想波形
+			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 200p 200p 1n 2n)\n"
+				"RdI NI12 NI11 76\n"
+				"RTI 0 NI13 76\n"
+				"T1CONV NI12 0 ideal1 0 Td = %.0fp Z0 = 76\n"
+				"T2CONV ideal1 0 ideal2 0 Td = %.0fp Z0 = 76\n"
+				"T3CONV ideal2 0 NI13 0 Td = %.0fp Z0 = 76\n",
+				SECTION_LENGTH[0], SECTION_LENGTH[1], SECTION_LENGTH[2]);
+
+			//シミュレーションコマンド
+			fprintf(fp, ".tran 18n\n"
+				".save V(N%03d)\n"
+				".save V(N%03d)\n"
+				".save V(ideal1)\n"
+				".save V(ideal2)\n"
+				".meas TRAN DIFF1 INTEG ABS(V(N%03d,ideal1)) FROM 0 TO 16n\n"
+				".meas TRAN DIFF2 INTEG ABS(V(N%03d,ideal2)) FROM 0 TO 16n\n"
+				".end\n", OBS1, OBS2, OBS1, OBS2);
+
+		}
+		fclose(fp);
+	}
+}
+
 void make_netlist_test1(individual* A, int arr) {
 
 	FILE* fp;
@@ -605,6 +695,23 @@ double get_w_range(double X[][CHROM_SEC]) {
 		}
 	}
 	return max - min;
+}
+
+double get_around75(double X[][CHROM_SEC]) {
+	int i;
+	double min, max;
+	double cost;
+	min = 1000;
+	max = 0; //エラー避けのための適当初期値
+	for (i = 0; i < SEGMENT; i++) {
+		if (min > X[i][0]) {
+			min = X[i][0];
+		}
+		if (max < X[i][0]) {
+			max = X[i][0];
+		}
+	}
+	cost = fabs(max - 75) + fabs(75 - min);
 }
 
 double getsegments(double X[][CHROM_SEC]) {

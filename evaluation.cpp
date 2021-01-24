@@ -50,10 +50,12 @@ void evaluation(individual* A, int arr) {
 			if (MODE == 1) {
 				//A[i].f[0] = get_result(i);
 				A[i].f[0] = get_result2(i); //make_netlist5とセットで使うこと
+
+
 				//A[i].f[1] = getwidth(A[i].X);
 				A[i].f[1] = get_w_range(A[i].X);
 				//A[i].f[1] = getsegments(A[i].X);
-				
+				//A[i].f[1] = get_around75(A[i].X);
 			}
 			else if (MODE == 0) {
 				eval_junction(A[i].X, A[i].f);

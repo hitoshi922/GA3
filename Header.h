@@ -180,6 +180,8 @@ double get_result2(int i);
 double getwidth(double X[][CHROM_SEC]);
 double get_w_range(double X[][CHROM_SEC]);
 double getsegments(double X[][CHROM_SEC]);
+double get_around75(double X[][CHROM_SEC]);
+
 
 
 
