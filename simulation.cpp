@@ -309,9 +309,12 @@ void make_netlist5(individual* A, int arr) {
 		}
 		//次2つはダンピング&終端抵抗
 		Rd = A[i].X[j][0];
-		RT = A[i].X[j + 1][0];
+		RT = A[i].X[j][0] + 20;
+
 		for (j = 0; j < DIM[1]; j++) {
-			L[j] = 56;//A[i].X[j][1];
+			//L[j] = A[i].X[j][1];
+			L[j] = 56; //fix
+
 		}
 
 		//1p問題仮対処
@@ -340,9 +343,9 @@ void make_netlist5(individual* A, int arr) {
 			//電源・負荷等
 			fprintf(fp, "*TML%03d\n"
 				"RT2 N%03d 0 %.0f\n"
-				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n) Rser=20\n"
-				"C1 N%03d 0 20p\n"
-				"C2 N%03d 0 20p\n"
+				"V1 Vin1 0 PULSE(0 6.6 1n 200p 200p 1n 2n) Rser=20\n"
+				"C1 N%03d 0 10p\n"
+				"C2 N%03d 0 10p\n"
 				"R1 Vin1 N001 %.0f\n"
 				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
 			//伝送線路
@@ -352,7 +355,7 @@ void make_netlist5(individual* A, int arr) {
 			}
 
 			//理想波形
-			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 20p 20p 8n)\n"
+			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 200p 200p 1n 2n)\n"
 				"RdI NI12 NI11 76\n"
 				"RTI 0 NI13 76\n"
 				"T1CONV NI12 0 ideal1 0 Td = %.0fp Z0 = 76\n"

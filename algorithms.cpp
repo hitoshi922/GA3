@@ -17,6 +17,37 @@ void format_pop(individual* ind, int arr);
 void select_new_comer(individual* A, int* new_comer_selector, int arr);
 void MGG_generation_change(individual* P, individual* nextP, int* parent_selector, int* new_comer_selector);;
 
+void cheat_initialize(individual* A,int POP) {
+	A[0].X[0][0] = 23;
+	A[0].X[1][0] = 21;
+	A[0].X[2][0] = 25;
+	A[0].X[3][0] = 27;
+	A[0].X[4][0] = 26;
+	A[0].X[5][0] = 64;
+	A[0].X[6][0] = 20;
+	A[0].X[7][0] = 20;
+	A[0].X[8][0] = 47;
+	A[0].X[9][0] = 41;
+	A[0].X[10][0] = 3;
+
+	//A[1].X[0][0] = 54;
+	//A[1].X[1][0] = 47;
+	//A[1].X[2][0] = 39;
+	//A[1].X[3][0] = 52;
+	//A[1].X[4][0] = 41;
+	//A[1].X[5][0] = 35;
+	//A[1].X[6][0] = 40;
+	//A[1].X[7][0] = 36;
+	//A[1].X[8][0] = 37;
+	//A[1].X[9][0] = 55;
+	//A[1].X[10][0] = 3;
+}
+
+void cheat_initialize2(individual* A, int POP) {
+
+}
+
+
 void put_elite() {
 	P[0] = elite[0];
 	P[1] = elite[1];
@@ -24,10 +55,19 @@ void put_elite() {
 
 void basic_GA() {
 	int cnt = 0;
+	double best = 0;
+	double range = 0;
 	init_ind(P, POP);
 	do {
 		printf("gen%d\n", cnt); //世代数表示
 		evaluation(P, POP);
+		for (int j = 0; j < POP; j++) {
+			if (best < P[j].evaluation) {
+				best = P[j].evaluation;
+				range = P[j].f[1];
+			}
+		}
+		printf("best = %f range = %f\n", best, range);
 		record(P, POP, cnt);
 		if (cnt == (GEN - 1)) {
 			break;
@@ -41,11 +81,16 @@ void basic_GA() {
 }
 
 void MGG() {
-	int qty_family = 22;
+	double best = 0;
+	double range = 0;
+
+	int qty_family = 12;
 	int parent_selecter[2];
 	int new_comer_selector[2];
 	int cnt = 0;
 	init_ind(P, POP);
+	cheat_initialize(P, POP);
+	evaluation(P, POP);
 	do {
 		printf("gen%d\n", cnt);
 		non_restored_extract(POP, parent_selecter, 2);
@@ -53,6 +98,17 @@ void MGG() {
 		select_new_comer(nextP, new_comer_selector, qty_family);
 		MGG_generation_change(P, nextP, parent_selecter, new_comer_selector);
 		cnt++;
+
+		best = 0;
+		range = 0;
+		for (int j = 0; j < POP; j++) {
+			if (best < P[j].evaluation) {
+				best = P[j].evaluation;
+				range = P[j].f[1];
+			}
+		}
+		printf("best = %f range = %.1f\n", best, range);
+
 	} while (cnt < GEN);
 	//もしかして一度も選ばれていない個体を評価するため
 	evaluation(P, POP);
@@ -61,7 +117,10 @@ void MGG() {
 void NSGA2() {//- front F
 	int cnt = 0;
 	int ranks;
+	double best[2] = { 0 };
+	double range;
 	init_ind(Q, POP);
+	//cheat_initialize(Q, POP);
 	evaluation(Q, POP);
 	ind_cpy(R, Q, POP); //探索集団Qを全集団Rにコピー
 	ind_cpy(P, R, POP); //全集団Rから初回アーカイブ
@@ -70,6 +129,13 @@ void NSGA2() {//- front F
 	
 	cnt++;
 	do {
+		for (int j = 0; j < POP; j++) {
+			if (best[0] < P[j].evaluation) {
+				best[0] = P[j].evaluation;
+				range = P[j].f[1];
+			}
+		}
+		printf("best = %f range = %.1f\n", best[0], range);
 
 		printf("gen%d\n", cnt); //世代数表示
 		format_pop(P, POP);
