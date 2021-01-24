@@ -40,7 +40,8 @@ void evaluation(individual* A, int arr) {
 	if (EVALUATION == 1) {
 		//make_netlist_test1(A, arr);
 		//make_netlist3(A, arr);//ˆÀ’è”Å
-		make_netlist5(A, arr);
+		//make_netlist5(A, arr);
+		make_netlist_500MHz(A, arr);
 		sim_STL(A, arr);
 	}
 
@@ -274,8 +275,8 @@ void culc_fitness(double* f, double* fitness) {
 
 void culc_improvant_rate(double* f, double* fitness) {
 	//fitness[0] = 1.05784e-8  / f[0];
-	fitness[0] = 3.53819e-8  / f[0];
-
+	//fitness[0] = 3.53819e-8  / f[0]; //make_netlist5
+	fitness[0] = (9.11236e-10 + 3.8332e-9) / f[0];
 	fitness[1] = 1 / f[1];
 }
 

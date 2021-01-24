@@ -84,30 +84,43 @@ void MGG() {
 	double best = 0;
 	double range = 0;
 
-	int qty_family = 12;
-	int parent_selecter[2];
-	int new_comer_selector[2];
+	int num_chi = 100;
+	int qty_family;
+	int parent_selecter[DIM_SEC];
+	int new_comer_selector[DIM_SEC];
 	int cnt = 0;
+	int num_par;
+	
+	//多親交叉用
+	if (CROSSOVER[0] == 12) {
+		num_par = DIM[0] + 1;
+	}
+	else {
+		num_par = 2;
+	}
+	qty_family = num_par + num_chi;
+
 	init_ind(P, POP);
-	cheat_initialize(P, POP);
+	//cheat_initialize(P, POP);
 	evaluation(P, POP);
 	do {
 		printf("gen%d\n", cnt);
-		non_restored_extract(POP, parent_selecter, 2);
-		MGG_crossover(P, parent_selecter, qty_family);//mutationも一体です
-		select_new_comer(nextP, new_comer_selector, qty_family);
+		non_restored_extract(POP, parent_selecter, num_par);
+		MGG_crossover(P, parent_selecter,num_par, qty_family);//mutationも一体です
+		select_new_comer(nextP, new_comer_selector, num_chi + 2);
 		MGG_generation_change(P, nextP, parent_selecter, new_comer_selector);
+		record(P, POP, cnt);
 		cnt++;
 
 		best = 0;
 		range = 0;
-		for (int j = 0; j < POP; j++) {
-			if (best < P[j].evaluation) {
-				best = P[j].evaluation;
-				range = P[j].f[1];
-			}
-		}
-		printf("best = %f range = %.1f\n", best, range);
+		//for (int j = 0; j < POP; j++) {
+		//	if (best < P[j].evaluation) {
+		//		best = P[j].evaluation;
+		//		range = P[j].f[1];
+		//	}
+		//}
+		//printf("best = %f range = %.1f\n", best, range);
 
 	} while (cnt < GEN);
 	//もしかして一度も選ばれていない個体を評価するため
@@ -129,13 +142,13 @@ void NSGA2() {//- front F
 	
 	cnt++;
 	do {
-		for (int j = 0; j < POP; j++) {
-			if (best[0] < P[j].evaluation) {
-				best[0] = P[j].evaluation;
-				range = P[j].f[1];
-			}
-		}
-		printf("best = %f range = %.1f\n", best[0], range);
+		//for (int j = 0; j < POP; j++) {
+		//	if (best[0] < P[j].evaluation) {
+		//		best[0] = P[j].evaluation;
+		//		range = P[j].f[1];
+		//	}
+		//}
+		//printf("best = %f range = %.1f\n", best[0], range);
 
 		printf("gen%d\n", cnt); //世代数表示
 		format_pop(P, POP);
@@ -483,7 +496,7 @@ void select_new_comer(individual* A, int* new_comer_selector, int arr) {
 		}
 	}
 	do {
-		cnd_rand = uniform_random(arr);
+		cnd_rand = MGG_roulette_select(nextP, arr);
 	} while (cnd_rand == cnd_elite);
 	new_comer_selector[0] = cnd_elite;
 	new_comer_selector[1] = cnd_rand;

@@ -96,6 +96,34 @@ void roulette_select(individual* B, int max, int* x, int arr) {
 	}
 }
 
+int MGG_roulette_select(individual* B, int max) {
+	int i, j;
+	double n;
+	double total = 0;
+	double sum = 0;
+	//B[100].fitness[101] = 1e7;
+
+	for (i = 0; i < max; i++) {
+		total += B[i].fitness[0];
+	}
+	
+	sum = 0;
+	n = (double)rand() / RAND_MAX * total;
+	for (i = 0; i < max; i++) {
+		sum += B[i].fitness[0];
+		if (sum >= n) {
+			return i;
+			break;
+		}
+	}
+
+	printf("roulette_select error\n");
+	exit(1);
+}
+
+
+
+
 //混雑度トーナメント親選択
 void crowding_tornament_select(individual* B, int max, int* x, int arr) {
 	int i, j;

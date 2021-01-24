@@ -12,8 +12,8 @@
 //SPX交叉実装中．
 
 //NSGA2を使うときは交叉率を100%にすること
-#define ALGO 0 //0:simple  1:MGG  10:NSGA2
-constexpr double CROSSOVER_RATE = 0.6; // *100[%];
+#define ALGO 10 //0:simple  1:MGG  10:NSGA2
+constexpr double CROSSOVER_RATE = 1; // *100[%];
 
 
 //離散・連続を変更したら、交叉・突然変異を変更
@@ -22,16 +22,16 @@ constexpr double CROSSOVER_RATE = 0.6; // *100[%];
 
 constexpr int TRIAL = 1;
 
-#define DIM_SEC 20
+#define DIM_SEC 50
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 100;
-constexpr int GEN = 500;
+constexpr int POP = 50;
+constexpr int GEN = 3;
 constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
 
 constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
-#define EVALUATION 60
+#define EVALUATION 1
 /* EVALUATION FUNCTION
 0:equation_base
 1:simulation_base
@@ -121,7 +121,7 @@ void NSGA2();
 
 //crossover
 void crossover(individual* B);
-void MGG_crossover(individual* B, int* parent_select, int qty_family);
+void MGG_crossover(individual* B, int* parent_select, int num_par, int qty_family);
 
 //evaluation
 void evaluation(individual* A, int arr);
@@ -143,6 +143,7 @@ void non_restored_extract(int max, int* x, int arr);
 void non_restored_extract2(int max, int min, int* x, int arr);
 void tornament_select(individual* B, int max, int* x, int arr);
 void roulette_select(individual* B, int limit, int* num, int arr);
+int MGG_roulette_select(individual* B, int max);
 void crowding_tornament_select(individual* B, int max, int* x, int arr);
 int uniform_random(int a);
 int uniform_random2(int max, int min);
@@ -176,6 +177,7 @@ void make_netlist(individual* A, int arr);
 void make_netlist2(individual* A, int arr);
 void make_netlist3(individual* A, int arr);
 void make_netlist5(individual* A, int arr);
+void make_netlist_500MHz(individual* A, int arr);
 void make_netlist_test1(individual* A, int arr);
 void sim_STL(individual* A, int arr);
 double get_result(int i);

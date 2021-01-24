@@ -49,6 +49,8 @@ void crossover(individual* B) {
 	int n_parent;
 	int n_child;
 
+
+
 	if (CROSSOVER[0] == 12) { //SPX
 		n_parent = DIM[0] + 1;
 	}
@@ -97,27 +99,36 @@ void crossover(individual* B) {
 
 }
 
-void MGG_crossover(individual* B, int* parent_select, int qty_family) {
+void MGG_crossover(individual* B, int* parent_select,int num_par, int qty_family) {
 	int i, j;
 	int cnt;
 	int inc = 0;
 	int n_parent;
-
-	if (CROSSOVER[0] == 12) {
-		n_parent = DIM[0] + 1;
-	}
-	else {
-		n_parent = 2;
-	}
+	int n_child;
 
 	double parent[DIM_SEC][DIM_SEC]; 
 	double child[DIM_SEC][DIM_SEC];
+	n_parent = num_par;
 
 	cnt = 0;
-	sel[0] = parent_select[0];
-	sel[1] = parent_select[1];
+	if (CROSSOVER[0] == 12) {
+		for (i = 0; i < num_par; i++) {
+			sel[i] = parent_select[i];
+		}
+	}
+	else {
+		sel[0] = parent_select[0];
+		sel[1] = parent_select[1];
+	}
+	if (CROSSOVER[0] == 12) { //SPX
+		n_child = 1;
+	}
+	else {
+		n_child = 2;
+	}
 
-	num_of_children = qty_family - 2;
+
+	num_of_children = qty_family - num_par;
 
 	//親個体のファミリーへの移し替え
 	//nextP[POP]<number_of_childrenだとバグる、そのための強制停止
@@ -131,12 +142,14 @@ void MGG_crossover(individual* B, int* parent_select, int qty_family) {
 	do {
 		for (i = 0; i < CHROM; i++) {
 			assign_parent(B, parent, i, n_parent);
-			//X_junction(parent[0], parent[1], child[0], child[1], i);
-			//inc = keep_nextP(cnt, child[0], child[1], i);
+			X_junction(parent, child, i);
+			search_space_restriction(child, i, n_child);
+			inc = keep_nextP(cnt, child, i, n_child);
 		}
 		cnt = cnt + inc;
 	} while (cnt < num_of_children);
 
+	//親の数にかかわらず最初の2個体のみ
 	nextP[cnt] = B[sel[0]];
 	nextP[cnt + 1] = B[sel[1]];
 	
@@ -194,6 +207,7 @@ int keep_nextP(int cnt, double child[][DIM_SEC], int chrome, int n_child) {
 	for (int j = 0; j < n_child; j++) {
 		for (i = 0; i < DIM[chrome]; i++) {
 			nextP[cnt].X[i][chrome] = child[j][i];
+			nextP[cnt].eval_tag = 0;
 		}
 		cnt++;
 		inc++;
@@ -364,13 +378,14 @@ void SBX(double parent[][DIM_SEC], double child[][DIM_SEC], int chrome) {
 
 void SPX(double parent[][DIM_SEC], double child[][DIM_SEC], int chrome) {
 	int i, j;
-	double eps = sqrt(DIM[0] + 2);
+	double eps = sqrt((double)DIM[0] + 2);
 	double G[DIM_SEC] = { 0 };
 	double x[DIM_SEC][DIM_SEC] = { 0 };
 	double C[DIM_SEC][DIM_SEC] = { 0 };
 	double rk[DIM_SEC];
 	int num_par = DIM[chrome] + 1;
 	double temp;
+
 
 	//あらかじめrkを計算
 	for (i = 0; i < DIM[chrome]; i++) {
@@ -388,7 +403,7 @@ void SPX(double parent[][DIM_SEC], double child[][DIM_SEC], int chrome) {
 	//xを計算
 	for (i = 0; i < num_par; i++) {
 		for (j = 0; j < DIM[chrome]; j++) {
-			x[i][j] = G[i] + eps * (parent[i][j] - G[i]);
+			x[i][j] = G[j] + eps * (parent[i][j] - G[j]);
 		}
 	}
 	//Cに関して計算

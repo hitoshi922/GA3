@@ -21,16 +21,16 @@ void setting() {
 //*******実験用設定**********
 void experiment_setting() {
 	int i, j;
-	SEGMENT = 10;
+	SEGMENT = 20;
 	DIM[0] = SEGMENT + 2; //セグメント数+抵抗数
-	DIM[1] = SEGMENT;
+	//DIM[1] = SEGMENT;
 	OBJ = 2;
-	CHROM = 2;
+	CHROM = 1;
 
 	QTY_SECTION = 3;
 	CNT_SEGMENT[0] = 0;
-	CNT_SEGMENT[1] = 5;
-	CNT_SEGMENT[2] = 9;
+	CNT_SEGMENT[1] = 10;
+	CNT_SEGMENT[2] = 18;
 	CNT_SEGMENT[3] = SEGMENT;
 	SECTION_LENGTH[0] = 280;
 	SECTION_LENGTH[1] = 224;
@@ -40,23 +40,23 @@ void experiment_setting() {
 	
 	for (i = 0; i < SEGMENT; i++) {
 		upper_bound[i][0] = 120;
-		lower_bound[i][0] = 30;
+		lower_bound[i][0] = 20;
 	}
 	upper_bound[SEGMENT][0] = 100;
 	lower_bound[SEGMENT][0] = 1;
 	upper_bound[SEGMENT+1][0] = 100;
 	lower_bound[SEGMENT+1][0] = 1;
-	for (i = 0; i < DIM[1]; i++) {
-		upper_bound[i][1] = 100;
-		lower_bound[i][1] = 1;
-	}
+	//for (i = 0; i < DIM[1]; i++) {
+	//	upper_bound[i][1] = 100;
+	//	lower_bound[i][1] = 1;
+	//}
 	
 	MIN_OR_MAX[0] = 0;
 }
 
 //****ベンチマーク用設定（変更不要）******
 void benchmark_setting() {
-	DIM[0] = 3; //(n variable用)
+	DIM[0] = 10; //(n variable用)
 
 	switch (EVALUATION) {
 	case 10: //SCH

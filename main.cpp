@@ -363,7 +363,7 @@ void output_result(double ex_time) {
 		else {
 			fprintf(fp, "ALGO : %d\n", ALGO);
 		}
-		fprintf(fp, "MODE : %d\n", MODE);
+
 		fprintf(fp, "EVALUATION : %d\n", EVALUATION);
 		fprintf(fp, "POPULATION : %d\n", POP);
 		fprintf(fp, "GENERATION : %d\n", GEN);
@@ -525,13 +525,13 @@ void initialize_read(individual* ind,int arr){
 
 
 void init_ind(individual* ind, int arr) {
-	if (MODE == 0) {
+	if (EVALUATION == 1) {
+		initialize3(ind, arr);
+	}
+	else {
 		initialize(ind, arr);
 	}
-	if (MODE == 1) {
-		initialize3(ind, arr);
-		//initialize_read(ind, arr);//‰¼
-	}
+
 }
 
 void small_segment_handring(double* seg) {
