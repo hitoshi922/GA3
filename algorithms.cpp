@@ -126,6 +126,7 @@ void NSGA2() {//- front F
 	ind_cpy(P, R, POP); //全集団Rから初回アーカイブ
 	record(P, POP, cnt);
 	crossover(Q);
+	
 	cnt++;
 	do {
 		for (int j = 0; j < POP; j++) {
@@ -148,6 +149,7 @@ void NSGA2() {//- front F
 		format_front();
 		evaluation(Q, POP);
 		create_R(P, Q, R);
+		int temp = check_clone(R, POP + POP);
 		non_dominated_sort(POP + POP); //-F,R  支配数計測　パレートフロント作成
 
 		for (int i = 0; i < F.rank_arr; i++) {
