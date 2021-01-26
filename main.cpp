@@ -2,7 +2,7 @@
 void read_setting();
 void random_weight();
 void fix_weight();
-void output_result(double ex_time);
+
 
 void make_SVsig(char* pulse) {
 	int i;
@@ -54,7 +54,7 @@ int main(void) {
 		end = clock();
 		ex_time = (double)(end - start) / CLOCKS_PER_SEC;
 		printf("%.2f•b‚©‚©‚è‚Ü‚µ‚½\n", ex_time);
-		output_result(ex_time);
+		output_result(ex_time, GEN);
 		it++;
 	} while (it < TRIAL);
 	//*******************
@@ -312,7 +312,7 @@ void record(individual* ind, int arr, int cnt) {
 
 }
 
-void output_result(double ex_time) {
+void output_result(double ex_time, int gen) {
 	time_t timer;
 	struct tm local;
 	int i, j, k;
@@ -404,6 +404,24 @@ void output_result(double ex_time) {
 		exit(1);
 	}
 	else {
+		fprintf(fp2, "ALGO,%d\n", ALGO);
+		fprintf(fp2, "POPULATION,%d\n", POP);
+		fprintf(fp2, "GEN,%d\n", gen);
+		if (CROSSOVER[0] == 10) {
+			fprintf(fp2, "CROSSOVER1,BLX_a\n");
+		}
+		else if (CROSSOVER[0] == 11) {
+			fprintf(fp2, "CROSSOVER1,SBX\n");
+		}
+		else if (CROSSOVER[0] == 12) {
+			fprintf(fp2, "CROSSOVER1,SPX\n");
+		}
+		else {
+			fprintf(fp2, "CROSSOVER1,%d\n", CROSSOVER[0]);
+		}
+		fprintf(fp2, "MUTATION_RATE1,%f\n", MUTATION_RATE[0]);
+
+
 		//Œ©o‚µ
 		fprintf(fp2, "result,");
 		for (i = 0; i < CHROM; i++) {

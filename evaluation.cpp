@@ -40,8 +40,16 @@ void evaluation(individual* A, int arr) {
 	if (EVALUATION == 1) {
 		//make_netlist_test1(A, arr);
 		//make_netlist3(A, arr);//安定版
-		//make_netlist5(A, arr);
-		make_netlist_500MHz(A, arr);
+		if (NETLIST == 0) {
+			make_netlist5(A, arr);
+		}
+		else if (NETLIST == 1) {
+			make_netlist_500MHz(A, arr);
+		}
+		else {
+			printf("chech NETLIST\n");
+			exit(1);
+		}
 		sim_STL(A, arr);
 	}
 
@@ -50,13 +58,15 @@ void evaluation(individual* A, int arr) {
 		if (A[i].eval_tag == 0) {
 			if (EVALUATION == 1) {
 				//A[i].f[0] = get_result(i);
-				A[i].f[0] = get_result2(i); //make_netlist5とセットで使うこと
+				A[i].f[0] = get_result2(i) * 10e9; //make_netlist
 
+				if (ALGO == 10) {
+					//A[i].f[1] = getwidth(A[i].X);
+					//A[i].f[1] = get_w_range(A[i].X);
+					//A[i].f[1] = getsegments(A[i].X);
+					A[i].f[1] = get_around75(A[i].X);
+				}
 
-				//A[i].f[1] = getwidth(A[i].X);
-				A[i].f[1] = get_w_range(A[i].X);
-				//A[i].f[1] = getsegments(A[i].X);
-				//A[i].f[1] = get_around75(A[i].X);
 			}
 			else {
 				eval_junction(A[i].X, A[i].f);
@@ -274,9 +284,13 @@ void culc_fitness(double* f, double* fitness) {
 }
 
 void culc_improvant_rate(double* f, double* fitness) {
-	//fitness[0] = 1.05784e-8  / f[0];
 	//fitness[0] = 3.53819e-8  / f[0]; //make_netlist5
-	fitness[0] = (9.11236e-10 + 3.8332e-9) / f[0];
+	if (NETLIST == 0) {
+		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / f[0];
+	}
+	else if (NETLIST == 1) {
+		fitness[0] = (1.82903e-9 + 5.16146e-9) * 10e9 / f[0];
+	}
 	fitness[1] = 1 / f[1];
 }
 

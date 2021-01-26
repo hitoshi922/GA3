@@ -9,7 +9,8 @@
 
 //information
 //•‰‰×—e—Ê‚ğ20p‚É‚µ‚Ä‚¢‚Ü‚·
-//SPXŒğ³À‘•’†D
+
+#define NETLIST 0 //0:single pulse  1:500MHz clock signal
 
 //NSGA2‚ğg‚¤‚Æ‚«‚ÍŒğ³—¦‚ğ100%‚É‚·‚é‚±‚Æ
 #define ALGO 10 //0:simple  1:MGG  10:NSGA2
@@ -25,9 +26,9 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 50
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 50;
-constexpr int GEN = 3;
-constexpr double MUTATION_RATE[CHROM_SEC] = { 0.05,0.1 }; // *100[%]
+constexpr int POP = 100;
+constexpr int GEN = 100;
+constexpr double MUTATION_RATE[CHROM_SEC] = { 0.01,0.1 }; // *100[%]
 
 constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
@@ -133,6 +134,7 @@ void initialize(individual* A, int arr);
 void record(individual* ind, int arr, int cnt);
 void init_ind(individual* ind, int arr);
 void small_segment_handring(double* seg);
+void output_result(double ex_time, int gen);
 
 //mutation
 void mutation(individual* B, int arr);

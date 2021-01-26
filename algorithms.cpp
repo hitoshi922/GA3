@@ -84,7 +84,7 @@ void MGG() {
 	double best = 0;
 	double range = 0;
 
-	int num_chi = 100;
+	int num_chi = 20;
 	int qty_family;
 	int parent_selecter[DIM_SEC];
 	int new_comer_selector[DIM_SEC];
@@ -114,13 +114,12 @@ void MGG() {
 
 		best = 0;
 		range = 0;
-		//for (int j = 0; j < POP; j++) {
-		//	if (best < P[j].evaluation) {
-		//		best = P[j].evaluation;
-		//		range = P[j].f[1];
-		//	}
-		//}
-		//printf("best = %f range = %.1f\n", best, range);
+		for (int j = 0; j < POP; j++) {
+			if (best < P[j].evaluation) {
+				best = P[j].evaluation;
+			}
+		}
+		printf("best = %f\n", best);
 
 	} while (cnt < GEN);
 	//‚à‚µ‚©‚µ‚Äˆê“x‚à‘I‚Î‚ê‚Ä‚¢‚È‚¢ŒÂ‘Ì‚ð•]‰¿‚·‚é‚½‚ß
@@ -179,6 +178,9 @@ void NSGA2() {//- front F
 		crossover(Q);
 		mutation(Q, POP);
 		cnt++;
+		if (cnt % 50 == 0) {
+			output_result(0, cnt);
+		}
 	} while (cnt < GEN);
 
 }

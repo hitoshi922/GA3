@@ -311,7 +311,7 @@ void make_netlist5(individual* A, int arr) {
 		Rd = A[i].X[j][0];
 		RT = A[i].X[j][0] + 20;
 
-		for (j = 0; j < DIM[1]; j++) {
+		for (j = 0; j < SEGMENT; j++) {
 			//L[j] = A[i].X[j][1];
 			L[j] = 56; //fix
 
@@ -343,19 +343,19 @@ void make_netlist5(individual* A, int arr) {
 			//電源・負荷等
 			fprintf(fp, "*TML%03d\n"
 				"RT2 N%03d 0 %.0f\n"
-				"V1 Vin1 0 PULSE(0 6.6 1n 200p 200p 1n 2n) Rser=20\n"
+				"V1 Vin1 0 PULSE(0 6.6 1n 20p 20p 8n) Rser=20\n"
 				"C1 N%03d 0 10p\n"
 				"C2 N%03d 0 10p\n"
 				"R1 Vin1 N001 %.0f\n"
-				, i, DIM[1] + 1, RT, OBS1, OBS2, Rd);
+				, i, SEGMENT + 1, RT, OBS1, OBS2, Rd);
 			//伝送線路
-			for (j = 0; j < DIM[1]; j++) {
+			for (j = 0; j < SEGMENT; j++) {
 				fprintf(fp, "T%d N%03d 0 N%03d 0 Td = %.2fp Z0 = %.2f\n",
 					j + 1, j + 1, j + 2, L[j], W[j]);//N000 はGNDのためノード名に使わない
 			}
 
 			//理想波形
-			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 200p 200p 1n 2n)\n"
+			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 20p 20p 8n)\n"
 				"RdI NI12 NI11 76\n"
 				"RTI 0 NI13 76\n"
 				"T1CONV NI12 0 ideal1 0 Td = %.0fp Z0 = 76\n"
@@ -431,7 +431,7 @@ void make_netlist_500MHz(individual* A, int arr) {
 			//電源・負荷等
 			fprintf(fp, "*TML%03d\n"
 				"RT2 N%03d 0 %.0f\n"
-				"V1 Vin1 0 PULSE(0 6.6 1n 200p 200p 1n 2n) Rser=20\n"
+				"V1 Vin1 0 PULSE(0 6.6 1n 200p 200p 0.8n 2n) Rser=20\n"
 				"C1 N%03d 0 10p\n"
 				"C2 N%03d 0 10p\n"
 				"R1 Vin1 N001 %.0f\n"
@@ -443,7 +443,7 @@ void make_netlist_500MHz(individual* A, int arr) {
 			}
 
 			//理想波形
-			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 200p 200p 1n 2n)\n"
+			fprintf(fp, "Videal NI11 0 PULSE(0 6.6 1n 1p 1p 1n 2n)\n"
 				"RdI NI12 NI11 76\n"
 				"RTI 0 NI13 76\n"
 				"T1CONV NI12 0 ideal1 0 Td = %.0fp Z0 = 76\n"
@@ -799,7 +799,7 @@ double get_around75(double X[][CHROM_SEC]) {
 			max = X[i][0];
 		}
 	}
-	cost = fabs(max - 75) + fabs(75 - min);
+	cost = (max - 76) * (max - 76) + (76 - min) * (76 - min);
 	return cost;
 }
 

@@ -21,17 +21,32 @@ void setting() {
 //*******実験用設定**********
 void experiment_setting() {
 	int i, j;
-	SEGMENT = 20;
+	if (NETLIST == 0) {
+		SEGMENT = 10;
+		CNT_SEGMENT[0] = 0;
+		CNT_SEGMENT[1] = 5;
+		CNT_SEGMENT[2] = 9;
+		CNT_SEGMENT[3] = SEGMENT;
+	}
+	else if (NETLIST == 1) {
+		SEGMENT = 20;
+		CNT_SEGMENT[0] = 0;
+		CNT_SEGMENT[1] = 10;
+		CNT_SEGMENT[2] = 18;
+		CNT_SEGMENT[3] = SEGMENT;
+	}
 	DIM[0] = SEGMENT + 2; //セグメント数+抵抗数
 	//DIM[1] = SEGMENT;
-	OBJ = 2;
-	CHROM = 1;
+	if (ALGO == 10) {
+		OBJ = 2;
+	}
+	else {
+		OBJ = 1;
+	}
 
+	CHROM = 1;
 	QTY_SECTION = 3;
-	CNT_SEGMENT[0] = 0;
-	CNT_SEGMENT[1] = 10;
-	CNT_SEGMENT[2] = 18;
-	CNT_SEGMENT[3] = SEGMENT;
+
 	SECTION_LENGTH[0] = 280;
 	SECTION_LENGTH[1] = 224;
 	SECTION_LENGTH[2] = 56;
