@@ -240,10 +240,10 @@ void generation_change(individual* B, int cnt) {
 }
 
 void parent_selection(individual* B, int* sel, int np) {
-	//if (ALGO == 10) {
-	//	crowding_tornament_select(B, POP, sel, np);
-	//	return;
-	//}
+	if (ALGO == 10) {
+		crowding_tornament_select(B, POP, sel, np);
+		return;
+	}
 	switch (PSM) {
 	case 0:
 		non_restored_extract(POP, sel, np);

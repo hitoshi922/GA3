@@ -29,16 +29,16 @@ void experiment_setting() {
 		CNT_SEGMENT[3] = SEGMENT;
 	}
 	else if (NETLIST == 1) {
-		SEGMENT = 20;
+		SEGMENT = 30;
 		CNT_SEGMENT[0] = 0;
-		CNT_SEGMENT[1] = 10;
-		CNT_SEGMENT[2] = 18;
+		CNT_SEGMENT[1] = 15;
+		CNT_SEGMENT[2] = 27;
 		CNT_SEGMENT[3] = SEGMENT;
 	}
 	DIM[0] = SEGMENT + 2; //ÉZÉOÉÅÉìÉgêî+íÔçRêî
 	//DIM[1] = SEGMENT;
 	if (ALGO == 10) {
-		OBJ = 2;
+		OBJ = 3;
 	}
 	else {
 		OBJ = 1;

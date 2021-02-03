@@ -58,13 +58,18 @@ void evaluation(individual* A, int arr) {
 		if (A[i].eval_tag == 0) {
 			if (EVALUATION == 1) {
 				//A[i].f[0] = get_result(i);
-				A[i].f[0] = get_result2(i) * 10e9; //make_netlist
+				A[i].f[0] = get_result_diff1(i) * 10e9; //make_netlist
 
 				if (ALGO == 10) {
-					//A[i].f[1] = getwidth(A[i].X);
+					A[i].f[1] = get_result_diff2(i) * 10e9; //make_netlist
+					A[i].f[2] = getwidth(A[i].X);
 					//A[i].f[1] = get_w_range(A[i].X);
 					//A[i].f[1] = getsegments(A[i].X);
-					A[i].f[1] = get_around75(A[i].X);
+					//A[i].f[1] = get_around75(A[i].X);
+					//A[i].f[2] = getwidth_max(A[i].X);
+					//A[i].f[2] = get_w_range(A[i].X);
+
+
 				}
 
 			}
@@ -287,11 +292,15 @@ void culc_improvant_rate(double* f, double* fitness) {
 	//fitness[0] = 3.53819e-8  / f[0]; //make_netlist5
 	if (NETLIST == 0) {
 		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / f[0];
+		//fitness[0] = (1.56193e-9 + 1.85046e-9) * 10e9 / f[0]; //4p
 	}
 	else if (NETLIST == 1) {
-		fitness[0] = (1.82903e-9 + 5.16146e-9) * 10e9 / f[0];
+		//fitness[0] = (1.82903e-9 + 5.16146e-9) * 10e9 / f[0];
+		fitness[0] = 1.82903e-9 * 10e9 / f[0];
+		fitness[1] = 5.16146e-9 * 10e9 / f[1];
 	}
-	fitness[1] = 1 / f[1];
+	fitness[2] = f[2];
+	//fitness[2] = 120 - f[2];
 }
 
 

@@ -10,7 +10,7 @@
 //information
 //•‰‰×—e—Ê‚ğ20p‚É‚µ‚Ä‚¢‚Ü‚·
 
-#define NETLIST 0 //0:single pulse  1:500MHz clock signal
+#define NETLIST 1 //0:single pulse  1:500MHz clock signal
 
 //NSGA2‚ğg‚¤‚Æ‚«‚ÍŒğ³—¦‚ğ100%‚É‚·‚é‚±‚Æ
 #define ALGO 10 //0:simple  1:MGG  10:NSGA2
@@ -26,8 +26,8 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 50
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 100;
-constexpr int GEN = 100;
+constexpr int POP = 200;
+constexpr int GEN = 200;
 constexpr double MUTATION_RATE[CHROM_SEC] = { 0.01,0.1 }; // *100[%]
 
 constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
@@ -184,7 +184,11 @@ void make_netlist_test1(individual* A, int arr);
 void sim_STL(individual* A, int arr);
 double get_result(int i);
 double get_result2(int i);
+double get_result_diff1(int num);
+double get_result_diff2(int num);
+
 double getwidth(double X[][CHROM_SEC]);
+double getwidth_max(double X[][CHROM_SEC]);
 double get_w_range(double X[][CHROM_SEC]);
 double getsegments(double X[][CHROM_SEC]);
 double get_around75(double X[][CHROM_SEC]);

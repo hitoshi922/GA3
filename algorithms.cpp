@@ -132,6 +132,18 @@ void NSGA2() {//- front F
 	double best[2] = { 0 };
 	double range;
 	init_ind(Q, POP);
+	//Q[0].X[0][0] = 23.3;
+	//Q[0].X[1][0] = 25.0;
+	//Q[0].X[2][0] = 25.5;
+	//Q[0].X[3][0] = 20.1;
+	//Q[0].X[4][0] = 20.1;
+	//Q[0].X[5][0] = 23.2;
+	//Q[0].X[6][0] = 21.1;
+	//Q[0].X[7][0] = 32.1;
+	//Q[0].X[8][0] = 34.1;
+	//Q[0].X[9][0] = 42.9;
+	//Q[0].X[10][0] = 1;
+
 	//cheat_initialize(Q, POP);
 	evaluation(Q, POP);
 	ind_cpy(R, Q, POP); //探索集団Qを全集団Rにコピー
@@ -141,13 +153,13 @@ void NSGA2() {//- front F
 	
 	cnt++;
 	do {
-		//for (int j = 0; j < POP; j++) {
-		//	if (best[0] < P[j].evaluation) {
-		//		best[0] = P[j].evaluation;
-		//		range = P[j].f[1];
-		//	}
-		//}
-		//printf("best = %f range = %.1f\n", best[0], range);
+		for (int j = 0; j < POP; j++) {
+			if (best[0] < P[j].evaluation) {
+				best[0] = P[j].evaluation;
+				range = P[j].f[1];
+			}
+		}
+		printf("best = %f range = %.1f\n", best[0], range);
 
 		printf("gen%d\n", cnt); //世代数表示
 		format_pop(P, POP);

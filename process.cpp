@@ -127,32 +127,51 @@ int MGG_roulette_select(individual* B, int max) {
 //混雑度トーナメント親選択
 void crowding_tornament_select(individual* B, int max, int* x, int arr) {
 	int i, j;
-	int select_operator[TORNAMENT_SIZE * 2];
+	int cnt = 0;
+	int select_operator[TORNAMENT_SIZE];
 	individual participant[TORNAMENT_SIZE];
-	individual temp;
-
-	non_restored_extract(max, select_operator, TORNAMENT_SIZE * 2);
-	for (i = 0; i < TORNAMENT_SIZE; i++) {
-		participant[i] = P[select_operator[i]];
-	}
-	//ここからトーナメント
-	for (i = 0; i < TORNAMENT_SIZE; i++) {
-		for (j = i; j < TORNAMENT_SIZE; j++) {
-			if (participant[i].rank > participant[j].rank)
-			{
-				temp = participant[i];
-				participant[i] = participant[j];
-				participant[j] = temp;
-			}
-			else if ((participant[i].crowding_distance > participant[j].crowding_distance)
-				&& (participant[i].rank == participant[j].rank))
-			{
-				temp = participant[i];
-				participant[i] = participant[j];
-				participant[j] = temp;
+	int winner;
+	int check;
+	
+	do {
+		check = 0;
+		non_restored_extract(max, select_operator, TORNAMENT_SIZE);
+		for (i = 0; i < TORNAMENT_SIZE; i++) {
+			participant[i] = P[select_operator[i]];
+		}
+		//ここからトーナメント
+		for (i = 0; i < TORNAMENT_SIZE; i++) {
+			for (j = i + 1; j < TORNAMENT_SIZE; j++) {
+				if (participant[i].rank > participant[j].rank) {
+					winner = select_operator[i];
+				}
+				else if (participant[i].rank < participant[j].rank) {
+					winner = select_operator[j];
+				}
+				else if ((participant[i].crowding_distance > participant[j].crowding_distance)
+					&& (participant[i].rank == participant[j].rank))
+				{
+					winner = select_operator[i];
+				}
+				else if ((participant[i].crowding_distance < participant[j].crowding_distance)
+					&& (participant[i].rank == participant[j].rank)){
+					winner = select_operator[j];
+				}
+				else {
+					winner = rand() % max;
+				}
 			}
 		}
-	}
+		x[cnt] = winner;
+		for (i = 0; i < cnt; i++) {
+			if (x[cnt] == x[i]) {
+				check = -1;
+			}
+		}
+		if (check == 0) {
+			cnt++;
+		}
+	} while (cnt < arr);
 
 }
 
