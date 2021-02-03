@@ -632,11 +632,11 @@ void STL_2PX(double parent[][DIM_SEC], double child[][DIM_SEC], int chrome) {
 
 	int i;
 
-	for (i = 0; i < L_NODE[0] - 1; i++) {
+	for (i = 0; i < CNT_SEGMENT[1]; i++) {
 		child[0][i] = parent[0][i];
 		child[1][i] = parent[1][i];
 	}
-	for (i; i < L_NODE[1] - 1; i++) {
+	for (i; i < CNT_SEGMENT[2]; i++) {
 		child[0][i] = parent[1][i];
 		child[1][i] = parent[0][i];
 	}
@@ -683,6 +683,9 @@ void STL_SX(double parent[][DIM_SEC], double child[][DIM_SEC], int chrome) {
 
 //ŽÀ”’lGA‚Å‚Ì’Tõ‹óŠÔ§ŒÀ
 void search_space_restriction(double child[][DIM_SEC], int chrome, int n_child) {
+	if (CROSSOVER[1] == 100) {
+		return;
+	}
 	SSR_BM(child, chrome, n_child);
 	SSR_pull_back(child, chrome, n_child);
 
