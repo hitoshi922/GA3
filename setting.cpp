@@ -27,6 +27,7 @@ void experiment_setting() {
 		CNT_SEGMENT[1] = 5;
 		CNT_SEGMENT[2] = 9;
 		CNT_SEGMENT[3] = SEGMENT;
+		CHROM = 1;
 	}
 	else if (NETLIST == 1) {
 		SEGMENT = 20;
@@ -34,6 +35,20 @@ void experiment_setting() {
 		CNT_SEGMENT[1] = 10;
 		CNT_SEGMENT[2] = 18;
 		CNT_SEGMENT[3] = SEGMENT;
+		CHROM = 1;
+	}
+	else if (NETLIST == 10) {
+		SEGMENT = 10;
+		CNT_SEGMENT[0] = 0;
+		CNT_SEGMENT[1] = 5;
+		CNT_SEGMENT[2] = 9;
+		CNT_SEGMENT[3] = SEGMENT;
+		DIM[1] = SEGMENT;
+		CHROM = 2;
+		for (i = 0; i < DIM[1]; i++) {
+			upper_bound[i][1] = 100;
+			lower_bound[i][1] = 50;
+		}
 	}
 	DIM[0] = SEGMENT + 2; //ƒZƒOƒƒ“ƒg”+’ïR”
 	//DIM[1] = SEGMENT;
@@ -44,7 +59,6 @@ void experiment_setting() {
 		OBJ = 1;
 	}
 
-	CHROM = 1;
 	QTY_SECTION = 3;
 
 	SECTION_LENGTH[0] = 280;

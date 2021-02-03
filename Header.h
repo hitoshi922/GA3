@@ -10,7 +10,8 @@
 //information
 //ïââ◊óeó Ç20pÇ…ÇµÇƒÇ¢Ç‹Ç∑
 
-#define NETLIST 0 //0:single pulse  1:500MHz clock signal
+#define NETLIST 10 //0:single pulse  1:500MHz clock signal 10:single pulse(variable length)
+
 
 //NSGA2ÇégÇ§Ç∆Ç´ÇÕåç≥ó¶Ç100%Ç…Ç∑ÇÈÇ±Ç∆
 #define ALGO 10 //0:simple  1:MGG  10:NSGA2
@@ -26,9 +27,9 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 50
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 100;
-constexpr int GEN = 100;
-constexpr double MUTATION_RATE[CHROM_SEC] = { 0.01,0.1 }; // *100[%]
+constexpr int POP = 30;
+constexpr int GEN = 50;
+constexpr double MUTATION_RATE[CHROM_SEC] = { 0.01,0.2 }; // *100[%]
 
 constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
@@ -55,7 +56,7 @@ UNIFORM:0  TORNAMENT:1  ROULETTE:2
 crowding:10
 */
 
-constexpr int CROSSOVER[CHROM_SEC] = { 12,102 };
+constexpr int CROSSOVER[CHROM_SEC] = { 12,100 };
 /* CROSSOVER METHOD
 OnePX:0  TwoPX:1  UniX:2
 BLX_a:10  SBX:11  SPX:12
@@ -180,6 +181,7 @@ void make_netlist2(individual* A, int arr);
 void make_netlist3(individual* A, int arr);
 void make_netlist5(individual* A, int arr);
 void make_netlist_500MHz(individual* A, int arr);
+void make_netlist_pulseVL(individual* A, int arr);
 void make_netlist_test1(individual* A, int arr);
 void sim_STL(individual* A, int arr);
 double get_result(int i);

@@ -46,11 +46,15 @@ void evaluation(individual* A, int arr) {
 		else if (NETLIST == 1) {
 			make_netlist_500MHz(A, arr);
 		}
+		else if (NETLIST == 10) {
+			make_netlist_pulseVL(A, arr);
+		}
 		else {
 			printf("chech NETLIST\n");
 			exit(1);
 		}
 		sim_STL(A, arr);
+		//system("timeout 10");
 	}
 
 
@@ -61,10 +65,10 @@ void evaluation(individual* A, int arr) {
 				A[i].f[0] = get_result2(i) * 10e9; //make_netlist
 
 				if (ALGO == 10) {
-					//A[i].f[1] = getwidth(A[i].X);
+					A[i].f[1] = getwidth(A[i].X);
 					//A[i].f[1] = get_w_range(A[i].X);
 					//A[i].f[1] = getsegments(A[i].X);
-					A[i].f[1] = get_around75(A[i].X);
+					//A[i].f[1] = get_around75(A[i].X);
 				}
 
 			}
@@ -291,7 +295,10 @@ void culc_improvant_rate(double* f, double* fitness) {
 	else if (NETLIST == 1) {
 		fitness[0] = (1.82903e-9 + 5.16146e-9) * 10e9 / f[0];
 	}
-	fitness[1] = 1 / f[1];
+	else if (NETLIST == 10) {
+		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / f[0];
+	}
+	fitness[1] = f[1];
 }
 
 
