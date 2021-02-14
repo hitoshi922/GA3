@@ -1,5 +1,5 @@
 #include"Header.h"
-//void make_SVsig(char* pulse);
+
 
 void make_netlist(individual* A, int arr) {
 
@@ -904,17 +904,23 @@ double getsegments(double X[][CHROM_SEC]) {
 	return count_segments;
 }
 
-//‰üC’†
-//void make_SVsig(char* pulse) {
-//	int i;
-//	char text[100] = "PULSE(0 6.6 SV 20p 20p 8n)";
-//	double freq = 300e6;
-//	double amp = 3.3;
-//	double r = 1 / freq;
-//	double endtm = 20;
-//	double check;
-//	int SV[6];
-//
-//	sprintf_s(pulse, 26, "PULSE(0 %f SV 20p 20p 8n)", amp);
-//
-//}
+
+void small_segment_handring(double* seg) {
+	int check;
+	int temps;
+	for (int m = 0; m < QTY_SECTION; m++) {
+		do {
+			check = 0;
+			for (int k = 0; k < (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]); k++) {
+				if (seg[k + CNT_SEGMENT[m]] < 2.8) {
+					seg[k + CNT_SEGMENT[m]] = seg[k + CNT_SEGMENT[m]] + 2.8;
+					temps = rand() % (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]);
+					seg[temps + CNT_SEGMENT[m]] = seg[temps + CNT_SEGMENT[m]] - 2.8;
+				}
+				else {
+					check++;
+				}
+			}
+		} while (check != (CNT_SEGMENT[m + 1] - CNT_SEGMENT[m]));
+	}
+}

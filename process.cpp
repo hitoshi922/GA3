@@ -299,7 +299,7 @@ void clear_array(double* x, int arr) {
 }
 
 //ŒÂ‘ÌŒQ‚ÌŠ®‘S‰Šú‰»
-void clear_POP(individual* A, int arr) {
+void Allclear_POP(individual* A, int arr) {
 	int i, j, k;
 	for (i = 0; i < arr; i++) {
 		for (j = 0; j < CHROM; j++) {
@@ -508,4 +508,21 @@ int check_clone(individual* ind, int arr) {
 	}
 	return check;
 
+}
+
+bool halt_condition(individual* A, int arr) {
+	int i, j;
+	
+	if (ALGO == 10) {
+		return false;
+	}
+
+	for (i = 0; i < arr; i++) {
+		if (A[i].f[0] < 1e-7) {
+			printf("convergence!\n");
+			return true;
+		}
+	}
+
+	return false;
 }

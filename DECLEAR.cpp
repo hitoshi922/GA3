@@ -5,7 +5,6 @@ individual nextP[POP];
 individual Q[POP];
 individual R[POP + POP];
 individual best_P[GEN];
-individual elite[2] = { 0,0 };
 
 front F;
 

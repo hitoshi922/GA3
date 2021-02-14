@@ -27,13 +27,13 @@ constexpr int TRIAL = 1;
 #define DIM_SEC 50
 #define OBJ_SEC 5
 #define CHROM_SEC 3
-constexpr int POP = 30;
-constexpr int GEN = 50;
-constexpr double MUTATION_RATE[CHROM_SEC] = { 0.01,0.2 }; // *100[%]
+constexpr int POP = 100;
+constexpr int GEN = 300;
+constexpr double MUTATION_RATE[CHROM_SEC] = { 0.01,0.1 }; // *100[%]
 
 constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120 };
 
-#define EVALUATION 1
+#define EVALUATION 24
 /* EVALUATION FUNCTION
 0:equation_base
 1:simulation_base
@@ -41,12 +41,12 @@ constexpr int designed[] = { 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90,
 11:FON
 12:POL
 13:KUR
-24:ZDT4
+21:ZDT1  24:ZDT4
 50:rosenbrock(2 variables)
 51:sphare(2 variables)
 60:rosenbrock(n variables)
 61:sphare(n variables)
-100:test
+100:debug
 */
 
 
@@ -101,7 +101,6 @@ extern individual nextP[POP];
 extern individual Q[POP];
 extern individual R[POP + POP];
 extern individual best_P[GEN];
-extern individual elite[2];
 extern double gen_ave[GEN];
 extern double upper_bound[DIM_SEC][CHROM_SEC];
 extern double lower_bound[DIM_SEC][CHROM_SEC];
@@ -117,7 +116,8 @@ extern double SECTION_LENGTH[DIM_SEC]; //•‰‰×—e—Ê‚Ü‚Å‚Ì‹——£
 extern int CNT_SEGMENT[DIM_SEC]; 
 
 //algorithms
-void basic_GA();
+void algorithm_junction();
+void simple_GA();
 void MGG();
 void NSGA2();
 
@@ -128,14 +128,15 @@ void MGG_crossover(individual* B, int* parent_select, int num_par, int qty_famil
 //evaluation
 void evaluation(individual* A, int arr);
 
-//main
+//initialize
 void initialize3(individual* A, int arr);
 void initialize2();
 void initialize(individual* A, int arr);
-void record(individual* ind, int arr, int cnt);
 void init_ind(individual* ind, int arr);
-void small_segment_handring(double* seg);
-void output_result(double ex_time, int gen);
+
+
+//main
+
 
 //mutation
 void mutation(individual* B, int arr);
@@ -155,7 +156,7 @@ int find_header2(FILE* fp, char* keyword);
 void sort(individual* ind, int arr);
 void d_sort(double* x, int arr);
 void clear_array(double* x, int arr);
-void clear_POP(individual* A, int arr);
+void Allclear_POP(individual* A, int arr);
 void ind_cpy(individual* A, individual* B, int arr);
 void individual_info(individual ind);
 void divide_num(int qty, int* divided, int arr);
@@ -165,15 +166,19 @@ double inner_product(double* x, double* y, int arr);
 void vector_plus(double* x1, double* x2, int arr, double* y);
 void vector_minus(double* x1, double* x2, int arr, double* y);
 int check_clone(individual* ind, int arr);
+bool halt_condition(individual* A, int arr);
 
-
-
+//record
+void output_result(double ex_time, int gen);
+void record(individual* ind, int arr, int cnt);
 
 
 //setting
 void setting();
 void experiment_setting();
 void benchmark_setting();
+void read_setting();
+
 
 //simulation
 void make_netlist(individual* A, int arr);
@@ -191,7 +196,9 @@ double get_w_range(double X[][CHROM_SEC]);
 double getsegments(double X[][CHROM_SEC]);
 double get_around75(double X[][CHROM_SEC]);
 
+void small_segment_handring(double* seg);
 
 
-
-
+//weigth
+void random_weight();
+void fix_weight();

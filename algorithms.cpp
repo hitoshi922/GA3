@@ -17,66 +17,44 @@ void format_pop(individual* ind, int arr);
 void select_new_comer(individual* A, int* new_comer_selector, int arr);
 void MGG_generation_change(individual* P, individual* nextP, int* parent_selector, int* new_comer_selector);;
 
-void cheat_initialize(individual* A,int POP) {
-	A[0].X[0][0] = 23;
-	A[0].X[1][0] = 21;
-	A[0].X[2][0] = 25;
-	A[0].X[3][0] = 27;
-	A[0].X[4][0] = 26;
-	A[0].X[5][0] = 64;
-	A[0].X[6][0] = 20;
-	A[0].X[7][0] = 20;
-	A[0].X[8][0] = 47;
-	A[0].X[9][0] = 41;
-	A[0].X[10][0] = 3;
 
-	//A[1].X[0][0] = 54;
-	//A[1].X[1][0] = 47;
-	//A[1].X[2][0] = 39;
-	//A[1].X[3][0] = 52;
-	//A[1].X[4][0] = 41;
-	//A[1].X[5][0] = 35;
-	//A[1].X[6][0] = 40;
-	//A[1].X[7][0] = 36;
-	//A[1].X[8][0] = 37;
-	//A[1].X[9][0] = 55;
-	//A[1].X[10][0] = 3;
-}
-
-void cheat_initialize2(individual* A, int POP) {
-
+void algorithm_junction() {
+	if (ALGO == 0) {
+		simple_GA();
+	}
+	else if (ALGO == 1) {
+		MGG();
+	}
+	else if (ALGO == 10) {
+		NSGA2();
+	}
+	else {
+		printf("check ALGORITHM\n");
+		exit(1);
+	}
 }
 
 
-void put_elite() {
-	P[0] = elite[0];
-	P[1] = elite[1];
-}
 
-void basic_GA() {
+void simple_GA() {
 	int cnt = 0;
-	double best = 0;
-	double range = 0;
+	bool convergence;
+
 	init_ind(P, POP);
+	evaluation(P, POP);
 	do {
-		printf("gen%d\n", cnt); //世代数表示
-		evaluation(P, POP);
-		for (int j = 0; j < POP; j++) {
-			if (best < P[j].evaluation) {
-				best = P[j].evaluation;
-				range = P[j].f[1];
-			}
-		}
-		printf("best = %f range = %f\n", best, range);
+		//世代数表示
+		printf("gen%d\n", cnt); 
 		record(P, POP, cnt);
-		if (cnt == (GEN - 1)) {
-			break;
-		}
-		crossover(P);
-		mutation(P, POP);
-		put_elite(); //テスト用
+		ind_cpy(Q, P, POP);
+		crossover(Q);
+		mutation(Q, POP);
+		ind_cpy(P, Q, POP);
+		evaluation(P, POP);
 		cnt++;
-	} while (cnt < GEN);
+		convergence = halt_condition(P, POP);
+	} while ((cnt < GEN) && (convergence == false));
+
 
 }
 
@@ -90,6 +68,7 @@ void MGG() {
 	int new_comer_selector[DIM_SEC];
 	int cnt = 0;
 	int num_par;
+	bool convergence;
 	
 	//多親交叉用
 	if (CROSSOVER[0] == 12) {
@@ -101,7 +80,6 @@ void MGG() {
 	qty_family = num_par + num_chi;
 
 	init_ind(P, POP);
-	//cheat_initialize(P, POP);
 	evaluation(P, POP);
 	do {
 		printf("gen%d\n", cnt);
@@ -110,6 +88,7 @@ void MGG() {
 		select_new_comer(nextP, new_comer_selector, num_chi + 2);
 		MGG_generation_change(P, nextP, parent_selecter, new_comer_selector);
 		record(P, POP, cnt);
+		convergence = halt_condition(P, POP);
 		cnt++;
 
 		best = 0;
@@ -121,7 +100,7 @@ void MGG() {
 		}
 		printf("best = %f\n", best);
 
-	} while (cnt < GEN);
+	} while ((cnt < GEN) && (convergence == false));
 	//もしかして一度も選ばれていない個体を評価するため
 	evaluation(P, POP);
 }
@@ -131,20 +110,8 @@ void NSGA2() {//- front F
 	int ranks;
 	double best[2] = { 0 };
 	double range;
+	bool convergence;
 	init_ind(Q, POP);
-	//Q[0].X[0][0] = 23.3;
-	//Q[0].X[1][0] = 25.0;
-	//Q[0].X[2][0] = 25.5;
-	//Q[0].X[3][0] = 20.1;
-	//Q[0].X[4][0] = 20.1;
-	//Q[0].X[5][0] = 23.2;
-	//Q[0].X[6][0] = 21.1;
-	//Q[0].X[7][0] = 32.1;
-	//Q[0].X[8][0] = 34.1;
-	//Q[0].X[9][0] = 42.9;
-	//Q[0].X[10][0] = 1;
-
-	//cheat_initialize(Q, POP);
 	evaluation(Q, POP);
 	ind_cpy(R, Q, POP); //探索集団Qを全集団Rにコピー
 	ind_cpy(P, R, POP); //全集団Rから初回アーカイブ
@@ -153,27 +120,20 @@ void NSGA2() {//- front F
 	
 	cnt++;
 	do {
-		for (int j = 0; j < POP; j++) {
-			if (best[0] < P[j].evaluation) {
-				best[0] = P[j].evaluation;
-				range = P[j].f[1];
-			}
-		}
-		printf("best = %f range = %.1f\n", best[0], range);
-
+		//for (int j = 0; j < POP; j++) {
+		//	if (best[0] < P[j].evaluation) {
+		//		best[0] = P[j].evaluation;
+		//		range = P[j].f[1];
+		//	}
+		//}
+		//printf("best = %f range = %.1f\n", best[0], range);
 		printf("gen%d\n", cnt); //世代数表示
 		format_pop(P, POP);
 		format_pop(Q, POP);
-		//*******************
-		//for (int i = 0; i < POP; i++) {
-		//	printf("ind[%d]\n", i);
-		//	individual_info(P[i]);
-		//}
-		//*******************
 		format_front();
 		evaluation(Q, POP);
 		create_R(P, Q, R);
-		int temp = check_clone(R, POP + POP);
+		//int temp = check_clone(R, POP + POP);
 		non_dominated_sort(POP + POP); //-F,R  支配数計測　パレートフロント作成
 
 		for (int i = 0; i < F.rank_arr; i++) {
@@ -181,20 +141,27 @@ void NSGA2() {//- front F
 		}
 		printf("\n\n");
 
-		clear_POP(P, POP);
+		Allclear_POP(P, POP);
 		//create_new_P(P); //-F  アーカイブには元の情報アリ
 		crowding_distance(P);//-F  混雑距離を計算 + Pにアーカイブ
 		//crowding_tornament(P, Q);
 		ind_cpy(Q, P, POP); //上のcrowdingの代わり
 		record(P, POP, cnt);
+		convergence = halt_condition(P, POP);
 		crossover(Q);
 		mutation(Q, POP);
 		cnt++;
 		if (cnt % 50 == 0) {
 			output_result(0, cnt);
 		}
-	} while (cnt < GEN);
+	} while ((cnt < GEN) && (convergence == false));
 
+}
+
+void FWGA() {
+	//crossover();
+	//mutation();
+	//evaluation();
 }
 
 void create_R(individual* P, individual* Q, individual* R) {
@@ -470,7 +437,7 @@ individual create_new_Q(individual* P) {
 void format_front() {//- front F
 	int i;
 	for (i = 0; i < POP + POP; i++) {
-		clear_POP(F.F[i], POP + POP);
+		Allclear_POP(F.F[i], POP + POP);
 	}
 	for (i = 0; i < POP + POP; i++) {
 		F.num_arr[i] = 0;
