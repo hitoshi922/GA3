@@ -7,11 +7,16 @@ void rosenbrock(double X[][CHROM_SEC], double* f);
 void rosenbrock_n(double X[][CHROM_SEC], double* f);
 void sphare(double X[][CHROM_SEC], double* f);
 void SCH(double X[][CHROM_SEC], double* f);
+void ZDT1(double X[][CHROM_SEC], double* f);
 void ZDT4(double X[][CHROM_SEC], double* f);
 void POL(double X[][CHROM_SEC], double* f);
+void KUR(double X[][CHROM_SEC], double* f);
 double assign_eval(double* fitness);
 void normalize();
 void normalize2();
+void copy_f_to_fitness(individual* A, int arr);
+void negative_fitness_translation(individual* A, int arr);
+
 void culc_fitness(double* f, double* fitness);
 void culc_improvant_rate(double* f, double* fitness);
 
@@ -78,16 +83,24 @@ void evaluation(individual* A, int arr) {
 			A[i].eval_tag = 1; //ï]âøçœÇ›Ç…çXêV
 		}
 	}
-	if (EVALUATION == 1) {
-		for (i = 0; i < POP; i++) {
-			culc_improvant_rate(A[i].f, A[i].fitness);
+
+	copy_f_to_fitness(A, arr);
+	negative_fitness_translation(A, arr);
+
+
+	for (i = 0; i < arr; i++) {
+		if (EVALUATION == 1) {
+			for (i = 0; i < POP; i++) {
+				culc_improvant_rate(A[i].f, A[i].fitness);
+			}
+		}
+		else {
+			for (i = 0; i < POP; i++) {
+				culc_fitness(A[i].f, A[i].fitness);
+			}
 		}
 	}
-	else{
-		for (i = 0; i < POP; i++) {
-			culc_fitness(A[i].f, A[i].fitness);
-		}
-	}
+
 
 
 	//normalize();
@@ -106,6 +119,12 @@ void eval_junction(double X[][CHROM_SEC], double* f) {
 		break;
 	case 12:
 		POL(X, f);
+		break;
+	case 13:
+		KUR(X, f);
+		break;
+	case 21:
+		ZDT1(X, f);
 		break;
 	case 24:
 		ZDT4(X, f);
@@ -211,6 +230,30 @@ void POL(double X[][CHROM_SEC], double* f) {
 	f[1] = f2;
 }
 
+void KUR(double X[][CHROM_SEC], double* f) {
+	f[0] = 0;
+	f[1] = 0;
+	for (int i = 0; i < DIM[0] - 1; i++) {
+		f[0] = f[0] - 10 * exp(-0.2 * sqrt(X[i][0] * X[i][0] + X[i + 1][0] * X[i + 1][0]));
+	}
+	for (int i = 0; i < DIM[0]; i++) {
+		f[1] = f[1] + pow(fabs(X[i][0]), 0.8) + 5 * sin(pow(X[i][0], 3));
+	}
+}
+
+
+void ZDT1(double X[][CHROM_SEC], double* f) {
+	double g;
+	double sigma = 0;
+	f[0] = X[0][0];
+	for (int i = 1; i < DIM[0]; i++) {
+		sigma = sigma + X[i][0];
+	}
+	g = 1 + 9 * sigma / (DIM[0] - 1);
+	f[1] = g * (1 - sqrt(X[0][0] / g));
+}
+
+
 
 void ZDT4(double X[][CHROM_SEC], double* f) {
 	int i;
@@ -268,21 +311,41 @@ void normalize3() {
 	}
 }
 
-//ï‚èCíÜ
+void copy_f_to_fitness(individual* A, int arr) {
+	for (int i = 0; i < OBJ; i++) {
+		for (int j = 0; j < arr; j++) {
+			A[j].fitness[i] = A[j].f[i];
+		}
+	}
+}
+
+
+void negative_fitness_translation(individual* A, int arr) {
+	double min;
+	for (int j = 0; j < OBJ; j++) {
+		min = 0;
+		for (int i = 0; i < arr; i++) {
+			if (min > A[i].fitness[j]) {
+				min = A[i].fitness[j];
+			}
+		}
+		if (min < 0) {
+			for (int i = 0; i < arr; i++) {
+				A[i].fitness[j] = A[i].fitness[j] - min;
+			}
+		}
+	}
+}
+
+
 void culc_fitness(double* f, double* fitness) {
 	for (int i = 0; i < OBJ; i++)
 	{
 		if (MIN_OR_MAX[i] == 0) { //ç≈è¨âªÇ»ÇÁìKâûìxÇÕãtêî
-			//ãtêî
-			if (f[i] != 0) {
-				fitness[i] = 1.0 / f[i];
-			}
-			else {
-				fitness[i] = DBL_MAX;
-			}
+			fitness[i] = 1.0 / (fitness[i] + DBL_EPSILON);
 		}
 		else {
-			fitness[i] = f[i];
+			fitness[i] = fitness[i];
 		}
 	}
 }
@@ -290,15 +353,15 @@ void culc_fitness(double* f, double* fitness) {
 void culc_improvant_rate(double* f, double* fitness) {
 	//fitness[0] = 3.53819e-8  / f[0]; //make_netlist5
 	if (NETLIST == 0) {
-		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / f[0];
+		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / fitness[0];
 	}
 	else if (NETLIST == 1) {
-		fitness[0] = (1.82903e-9 + 5.16146e-9) * 10e9 / f[0];
+		fitness[0] = (1.82903e-9 + 5.16146e-9) * 10e9 / fitness[0];
 	}
 	else if (NETLIST == 10) {
-		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / f[0];
+		fitness[0] = (5.29322e-9 + 5.30237e-9) * 10e9 / fitness[0];
 	}
-	fitness[1] = f[1];
+	fitness[1] = fitness[1];
 }
 
 

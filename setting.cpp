@@ -10,7 +10,7 @@ void setting() {
 		experiment_setting();
 	}
 	else {
-		benchmark_setting();;
+		benchmark_setting();
 	}
 
 	bound_check();
@@ -50,7 +50,7 @@ void experiment_setting() {
 			lower_bound[i][1] = 50;
 		}
 	}
-	DIM[0] = SEGMENT + 2; //セグメント数+抵抗数
+	DIM[0] = SEGMENT + 1; //セグメント数+抵抗数
 	//DIM[1] = SEGMENT;
 	if (ALGO == 10) {
 		OBJ = 3;
@@ -105,6 +105,24 @@ void benchmark_setting() {
 		for (int i = 0; i < DIM[0]; i++) {
 			lower_bound[i][0] = -M_PI;
 			upper_bound[i][0] = M_PI;
+		}
+		break;
+	case 13:
+		DIM[0] = 3;
+		OBJ = 2;
+		CHROM = 1;
+		for (int i = 0; i < DIM[0]; i++) {
+			lower_bound[i][0] = -5;
+			upper_bound[i][0] = 5;
+		}
+		break;
+	case 21: //ZDT1
+		DIM[0] = 30;
+		OBJ = 2;
+		CHROM = 1;
+		for (int i = 0; i < DIM[0]; i++) {
+			lower_bound[i][0] = 0;
+			upper_bound[i][0] = 1;
 		}
 		break;
 
@@ -214,4 +232,35 @@ void secure_check() {
 		printf("secure_check : OBJ is larger than OBJ_SEC.\n");
 		exit(1);
 	}
+}
+
+
+
+
+
+//ファイルから設定を読み込む
+void read_setting() {
+	FILE* fp;
+	errno_t error;
+	//int check;
+
+	//test
+	//char objective[64] = "#objective";
+	/*char min_or_max[64] = "#min_or_max";*/
+
+	error = fopen_s(&fp, "setting.txt", "r");
+	if (error != 0) {
+		printf("設定ファイルを開けませんでした");
+		exit(1);
+	}
+
+	//find_header(fp, objective);
+	//fscanf_s(fp, "%d", &OBJ);
+
+	//find_header(fp, min_or_max);
+	//for (int i = 0; i < OBJ; i++) {
+	//	fscanf_s(fp, "%d", &MIN_OR_MAX[i]);
+	//}
+
+	fclose(fp);
 }

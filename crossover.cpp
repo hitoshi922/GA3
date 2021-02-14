@@ -683,7 +683,7 @@ void STL_SX(double parent[][DIM_SEC], double child[][DIM_SEC], int chrome) {
 
 //À”’lGA‚Å‚Ì’Tõ‹óŠÔ§ŒÀ
 void search_space_restriction(double child[][DIM_SEC], int chrome, int n_child) {
-	if (CROSSOVER[1] == 100) {
+	if (chrome == 1) {
 		return;
 	}
 	SSR_BM(child, chrome, n_child);
