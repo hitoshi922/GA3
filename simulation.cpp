@@ -820,7 +820,7 @@ double get_result2(int num) {
 	int dammy;
 	char buf1[64] = "diff1:";
 	char buf2[64] = "diff2:";
-
+	int e1,e2;
 
 	sprintf_s(filename, "C:/LTspice_results/TML%03d.log", num);
 
@@ -831,12 +831,18 @@ double get_result2(int num) {
 	}
 
 	//diff1“Ç‚ÝŽæ‚è
-	find_header2(fp, buf1);
+	e1 = find_header2(fp, buf1);
+	if (e1 == 0) {
+		printf("%d", num);
+	}
 	while ((dammy = fgetc(fp)) != 61) { //'='‚Ì’l‚ª61
 	}
 	fscanf_s(fp, "%lf", &diff1);
 	//diff2“Ç‚ÝŽæ‚è
-	find_header2(fp, buf2);
+	e2 = find_header2(fp, buf2);
+	if (e2 == 0) {
+		printf("%d", num);
+	}
 	while ((dammy = fgetc(fp)) != 61) { 
 	}
 	fscanf_s(fp, "%lf", &diff2);

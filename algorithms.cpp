@@ -187,7 +187,7 @@ void NSGA2() {//- front F
 		//crowding_tornament(P, Q);
 		ind_cpy(Q, P, POP); //è„ÇÃcrowdingÇÃë„ÇÌÇË
 		record(P, POP, cnt);
-		crossover(Q);
+		crossover(Q); 
 		mutation(Q, POP);
 		cnt++;
 		if (cnt % 50 == 0) {
